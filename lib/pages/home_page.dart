@@ -90,61 +90,61 @@ class _MyDialogState extends State<MyDialog> {
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-            TextField(
-                  decoration: const InputDecoration(hintText: "Name of Habit"),
-            ),
+          TextField(
+            decoration: const InputDecoration(hintText: "Name of Habit"),
+          ),
           Row(
             children: [
               Expanded(
                 child: CheckboxListTile(
-                              title: const Text("✅"),
-                              value: _isCheckedCheck,
-                              onChanged: (bool? newValue){
-                                setState(() {
-                                  _isCheckedCheck = newValue;
-                                  _isCheckedTime = false;
-                                  _isCheckedAmount = false;
-                                });
-                              }
-                            ),
+                  title: const Text("✅"),
+                  value: _isCheckedCheck,
+                  onChanged: (bool? newValue){
+                    setState(() {
+                      _isCheckedCheck = newValue;
+                      _isCheckedTime = false;
+                      _isCheckedAmount = false;
+                    });
+                  }
+                ),
               ),
               Expanded(
                 child: CheckboxListTile(
-                              title: const Text("⏳"),
-                              value: _isCheckedTime,
-                              onChanged: (bool? newValue){
-                                setState(() {
-                                  _isCheckedTime = newValue;
-                                  _isCheckedCheck = false;
-                                  _isCheckedAmount = false;
-                                });
-                              }
-                            ),
+                  title: const Text("⏳"),
+                  value: _isCheckedTime,
+                  onChanged: (bool? newValue){
+                    setState(() {
+                      _isCheckedTime = newValue;
+                      _isCheckedCheck = false;
+                      _isCheckedAmount = false;
+                    });
+                  }
+                ),
               ),
               Expanded(
                 child: CheckboxListTile(
-                              title: const Text("🤏"),
-                              value: _isCheckedAmount,
-                              onChanged: (bool? newValue){
-                                setState(() {
-                                  _isCheckedAmount = newValue;
-                                  _isCheckedTime = false;
-                                  _isCheckedCheck = false;
-                                });
-                              }
-                            ),
+                  title: const Text("🤏"),
+                  value: _isCheckedAmount,
+                  onChanged: (bool? newValue){
+                    setState(() {
+                      _isCheckedAmount = newValue;
+                      _isCheckedTime = false;
+                      _isCheckedCheck = false;
+                    });
+                  }
+                ),
               ),
             ],
           ),
           if(_isCheckedTime == true)(
             TextField(
-                decoration: InputDecoration(hintText: "Time in minutes"),
-              )
+              decoration: InputDecoration(hintText: "Time in minutes"),
+            )
           ),
           if(_isCheckedAmount == true)(
             TextField(
-                decoration: InputDecoration(hintText: "Amount of subgoals"),
-              )
+              decoration: InputDecoration(hintText: "Amount of subgoals"),
+            )
           ),
           Row(
             children: [
@@ -160,17 +160,10 @@ class _MyDialogState extends State<MyDialog> {
               Expanded(
                 flex: 1,
                 child:  
-                  //TextField(
-                  //decoration: InputDecoration(hintText: "Unit"
                   DropdownButton<String>(
                     value: timeDropDownValue,
                     icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
-                    //style: const TextStyle(color: Colors.deepPurple),
-                    //underline: Container(
-                    //  height: 2,
-                    //  color: Colors.deepPurpleAccent,
-                    //),
                     onChanged: (String? value) {
                       // This is called when the user selects an item.
                       setState(() {
