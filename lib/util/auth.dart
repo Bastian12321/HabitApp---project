@@ -4,8 +4,6 @@ import 'package:habitapp/models/appUser.dart';
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  User? get currentUser => _firebaseAuth.currentUser; //TODO: skal nok fjernes
-
   AppUser? _appUserFromFirebaseUser(User? user) {
     return user != null ? AppUser(uid: user.uid) : null;
   }
@@ -29,16 +27,18 @@ class Auth {
     }
   }
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges(); //TODO skal nok fjernes
-
-  Future<void> signInWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
-      email: email, 
-      password: password
-    );
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, 
+        password: password,
+      );
+      User? user = result.user;
+      return _appUserFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
   Future createUserWithEmailAndPassword (String email, String password) async {
@@ -51,6 +51,7 @@ class Auth {
       return _appUserFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
+      return null;
     }
   }
 

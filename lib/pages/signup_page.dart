@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitapp/loading.dart';
 import 'package:habitapp/util/informationfield.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitapp/util/auth.dart';
 
 class SignupPage extends StatefulWidget {
@@ -14,7 +14,8 @@ class SignupPage extends StatefulWidget {
 
 class _LoginPageState extends State<SignupPage> {  
 
-  String? errorMessage = '';
+  String errorMessage = '';
+  bool loading = false;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -24,23 +25,10 @@ class _LoginPageState extends State<SignupPage> {
 
   final Auth _auth = Auth();
 
-  Future<void> newUser() async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-        _emailController.text, 
-        _passwordController.text
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF1D716F),
+    return loading ? const Loading() : Scaffold(
+      backgroundColor: const Color(0xFF1D716F),
       appBar: AppBar(
         title: const Text(
           'TrackIT',
@@ -92,7 +80,17 @@ class _LoginPageState extends State<SignupPage> {
                   child: MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        newUser();
+                        setState(() => loading = true);
+                        dynamic result = await _auth.createUserWithEmailAndPassword(
+                          _emailController.text, 
+                          _passwordController.text,
+                        );
+                        if(result == null) {
+                          setState(() {
+                            errorMessage = 'Invalid email';
+                            loading = false;
+                          });
+                        }
                       }
                     },
                     shape: RoundedRectangleBorder(
@@ -103,6 +101,17 @@ class _LoginPageState extends State<SignupPage> {
                     color: const Color.fromARGB(255, 232, 124, 112),
                   ),
                 ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  child: Text(
+                    errorMessage,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                      fontSize: 14
+                    ),
+                  ),
+                )
               ],
             ),
           ),

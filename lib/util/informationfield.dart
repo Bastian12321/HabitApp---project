@@ -35,7 +35,7 @@ class Informationfield extends StatelessWidget {
         hintText: hint,
         filled: true,
         hintStyle: const TextStyle(color: Colors.grey),
-        fillColor: Color.fromARGB(255, 228, 181, 176),
+        fillColor: const Color.fromARGB(255, 228, 181, 176),
         contentPadding: const EdgeInsets.all(16),
         errorStyle: const TextStyle(
           fontWeight: FontWeight.bold, 

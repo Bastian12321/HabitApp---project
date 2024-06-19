@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:habitapp/util/auth.dart';
@@ -44,10 +43,7 @@ class MyApp extends StatelessWidget {
             selectedItemColor: Color.fromARGB(255, 210, 142, 134),
           ),
         ),
-        home: Wrapper(),
-        //home: SignupPage(),
-        //home: LoginPage(),
-        //home: HomePage(),
+        home: const Wrapper(),
         debugShowCheckedModeBanner: false,
       ),
     );

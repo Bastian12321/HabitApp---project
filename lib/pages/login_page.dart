@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitapp/loading.dart';
 import 'package:habitapp/util/informationfield.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitapp/util/auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,9 +13,10 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {  
-  String? errorMessage = '';
-  bool isLogin = true;
+class _LoginPageState extends State<LoginPage> {
+
+  String errorMessage = '';
+  bool loading = false;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -24,32 +25,9 @@ class _LoginPageState extends State<LoginPage> {
 
   final Auth _auth = Auth();
 
-  Future<void> signIn() async {
-    try {
-      await _auth.signInWithEmailAndPassword(
-        email: _emailController.text, 
-        password: _passwordController.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
-  Future<void> signInAnom() async {
-    try {
-      await _auth.signInAnon();
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? const Loading() : Scaffold(
       backgroundColor: const Color(0xFF1D716F),
       appBar: AppBar(
         title: const Text(
@@ -93,7 +71,17 @@ class _LoginPageState extends State<LoginPage> {
                   child: MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        signInAnom();
+                        setState(() => loading = true);
+                        dynamic result = await _auth.signInWithEmailAndPassword(
+                          _emailController.text, 
+                          _passwordController.text
+                        );
+                        if (result == null) {
+                          setState(() {
+                            errorMessage = 'User is not in system';
+                            loading = false;
+                          });
+                        }
                       }
                     },
                     shape: RoundedRectangleBorder(
@@ -102,6 +90,17 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text('login'),
                     elevation: 15,
                     color: const Color.fromARGB(255, 232, 124, 112),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  child: Text(
+                    errorMessage,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                      fontSize: 14
+                    ),
                   ),
                 ),
               ],
