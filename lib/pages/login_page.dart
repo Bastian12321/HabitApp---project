@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitapp/loading.dart';
+import 'package:habitapp/util/loading.dart';
 import 'package:habitapp/util/informationfield.dart';
 import 'package:habitapp/util/auth.dart';
 

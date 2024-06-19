@@ -1,10 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/util/auth.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/pages/wrappers/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'package:habitapp/pages/base_scaffold.dart';
+import 'package:habitapp/pages/achievements_page.dart';
+import 'package:habitapp/pages/habits_page.dart';
+import 'package:habitapp/pages/friends_page.dart';
+import 'package:habitapp/pages/home_page.dart';
+import 'package:habitapp/util/habitinterface.dart';
 
 
 void main() async {
@@ -17,6 +24,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   // This widget is the root of your application.
   @override
@@ -46,6 +54,40 @@ class MyApp extends StatelessWidget {
         home: const Wrapper(),
         debugShowCheckedModeBanner: false,
       ),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _pages = <Widget>[
+    HomePage(),
+    CalendarPage(),
+    HabitsPage(),
+    AchievementsPage(),
+    FriendsPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      selectedIndex: _selectedIndex,
+      onItemTapped: _onItemTapped,
+      body: _pages.elementAt(_selectedIndex),
     );
   }
 }
