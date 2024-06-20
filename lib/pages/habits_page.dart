@@ -71,10 +71,10 @@ class _HabitsPageState extends State<HabitsPage> {
                     onPressed: () {
                       habitName = _habitController.text;
                       setState(() {
-                        widget.data.addHabit(widget.data.focusedDay, habitName);
-                        _selectedHabits.value = widget.data.getHabitsForDay(widget.data.focusedDay);
+                        widget.data.addHabit(widget.data.selectedDay!, habitName);
+                        _selectedHabits.value = widget.data.getHabitsForDay(widget.data.selectedDay!);
                       });
-                      print(widget.data.getHabitsForDay(widget.data.focusedDay));
+                      print(widget.data.getHabitsForDay(widget.data.selectedDay!));
                       Navigator.of(context).pop();
                     },
                     child: Text("Submit"),

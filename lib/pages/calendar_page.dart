@@ -14,14 +14,14 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   late final ValueNotifier<List<Habit>> _selectedHabits;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-
-  DateTime? _selectedDay;
+  late final ValueNotifier<DateTime> currentDay;
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = widget.data.focusedDay;
-    _selectedHabits = ValueNotifier(widget.data.getHabitsForDay(_selectedDay!));
+    widget.data.selectedDay = widget.data.focusedDay;
+    _selectedHabits = ValueNotifier(widget.data.getHabitsForDay(widget.data.selectedDay!));
+    currentDay = ValueNotifier(widget.data.currentDay);
   }
 
  @override
@@ -49,38 +49,46 @@ class _CalendarPageState extends State<CalendarPage> {
             child: ValueListenableBuilder(
               valueListenable: _selectedHabits,
               builder: (context, value, _) {
+                List<Habit> incompleteHabits =
+                  value.where((habit) => !habit.done).toList();
+                List<Habit> completeHabits =
+                  value.where((habit) => habit.done).toList();
+                List<Habit> combinedHabits = [];
+                combinedHabits.addAll(incompleteHabits);
+                combinedHabits.addAll(completeHabits);
+
                 return ListView.builder(
-                  itemCount: value.length, 
+                  itemCount: combinedHabits.length,
                   itemBuilder: (context, index) {
                   return Container(
                     margin: const EdgeInsets.symmetric(
-                      horizontal: 12, 
-                      vertical: 4
-                      ),
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ListTile(
-                      onTap: () {
-                        setState(() {
-                            value[index].done;
-                            _selectedHabits.value = List.from(_selectedHabits.value);
-                          });
-                      },
                       title: Text(
-                        '${value[index]}',
+                        '${combinedHabits[index]}',
                         style: TextStyle(
-                            decoration: value[index].done ? TextDecoration.lineThrough : TextDecoration.none,
+                          decoration: combinedHabits[index].done
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
                         ),
                       ),
                       trailing: Icon(
-                          value[index].done ? Icons.check_box : Icons.check_box_outline_blank,
-                          color: value[index].done ? Colors.green : null,
-                        ),
-                  )
-                );
-                });
+                        combinedHabits[index].done
+                            ? Icons.check_box
+                            : Icons.check_box_outline_blank,
+                        color:
+                            combinedHabits[index].done ? Colors.green : null,
+                      ),
+                    ),
+                  );
+                },
+              );
               }),
           )
         ],
@@ -92,17 +100,17 @@ class _CalendarPageState extends State<CalendarPage> {
     return TableCalendar(
       firstDay: DateTime.utc(2024, 1, 1),
       lastDay: DateTime.utc(2030, 12, 31),
-      focusedDay: widget.data.focusedDay,
+      focusedDay: DateTime.utc(2024,6,25),
       calendarFormat: _calendarFormat,
       eventLoader: widget.data.getHabitsForDay,
       selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay, day);
+        return isSameDay(widget.data.selectedDay, day);
       },
       onDaySelected: (selectedDay, focusedDay){ 
         setState(() {
-          _selectedDay = selectedDay;
+          widget.data.selectedDay = selectedDay;
           widget.data.focusedDay = focusedDay;
-          _selectedHabits.value = widget.data.getHabitsForDay(_selectedDay!);
+          _selectedHabits.value = widget.data.getHabitsForDay(widget.data.selectedDay!);
         });
 
       },

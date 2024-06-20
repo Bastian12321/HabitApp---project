@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/pages/wrappers/wrapper.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'firebase_options.dart';
 import 'package:habitapp/pages/base_scaffold.dart';
 import 'package:habitapp/pages/calendar_page.dart';
@@ -25,7 +28,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   // This widget is the root of your application.
   @override
@@ -75,12 +77,22 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pages.addAll([
-      HomePage(),
+      HomePage(data: data),
       CalendarPage(data: data),
       HabitsPage(data: data),
       AchievementsPage(),
       FriendsPage(),
     ]);
+
+    Timer.periodic(const Duration(seconds: 60), (timer) {
+      DateTime now = DateTime.now();
+      if (!isSameDay(data.focusedDay, now)) {
+        setState(() {
+          data.currentDay = now;
+        });
+      }
+    }
+    );
   }
 
   void _onItemTapped(int index) {

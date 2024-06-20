@@ -1,19 +1,32 @@
+import 'dart:collection';
+
 import 'package:habitapp/util/habit.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class HabitUI {
-
-  Map<DateTime, List<Habit>> habits;
-
-  HabitUI(): habits = {};
-
-
+  DateTime _currentDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
   DateTime get focusedDay => _focusedDay;
+  DateTime get currentDay => _currentDay;
+  DateTime? get selectedDay => _selectedDay;
+  
+  static final LinkedHashMap<DateTime, List<Habit>> habits = LinkedHashMap<DateTime, List<Habit>>(
+    equals: isSameDay,
+    hashCode: (DateTime key) => key.day * 1000000 + key.month * 10000 + key.year,
+  );
 
-  void set focusedDay(DateTime day) {
+  set focusedDay(DateTime day) {
     _focusedDay = day;
+  }
+
+  set currentDay(DateTime day) {
+    _currentDay= day;
+  }
+
+  set selectedDay(DateTime? day) {
+    _selectedDay = day;
   }
 
   List<Habit> getHabitsForDay(DateTime day) {
