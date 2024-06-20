@@ -5,10 +5,12 @@ import 'package:habitapp/pages/wrappers/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:habitapp/pages/base_scaffold.dart';
+import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/pages/achievements_page.dart';
 import 'package:habitapp/pages/habits_page.dart';
 import 'package:habitapp/pages/friends_page.dart';
 import 'package:habitapp/pages/home_page.dart';
+import 'package:habitapp/services/auth.dart';
 import 'package:habitapp/util/habitinterface.dart';
 
 
