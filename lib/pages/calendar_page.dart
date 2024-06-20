@@ -4,7 +4,8 @@ import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+  HabitUI data;
+  CalendarPage({super.key, required this.data});
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
@@ -13,15 +14,14 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   late final ValueNotifier<List<Habit>> _selectedHabits;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
+
   DateTime? _selectedDay;
-  HabitUI habitData = HabitUI();
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay;
-    _selectedHabits = ValueNotifier(habitData.getHabitsForDay(_selectedDay!));
+    _selectedDay = widget.data.focusedDay;
+    _selectedHabits = ValueNotifier(widget.data.getHabitsForDay(_selectedDay!));
   }
 
  @override
@@ -92,17 +92,17 @@ class _CalendarPageState extends State<CalendarPage> {
     return TableCalendar(
       firstDay: DateTime.utc(2024, 1, 1),
       lastDay: DateTime.utc(2030, 12, 31),
-      focusedDay: _focusedDay,
+      focusedDay: widget.data.focusedDay,
       calendarFormat: _calendarFormat,
-      eventLoader: habitData.getHabitsForDay,
+      eventLoader: widget.data.getHabitsForDay,
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },
       onDaySelected: (selectedDay, focusedDay){ 
         setState(() {
           _selectedDay = selectedDay;
-          _focusedDay = focusedDay;
-          _selectedHabits.value = habitData.getHabitsForDay(_selectedDay!);
+          widget.data.focusedDay = focusedDay;
+          _selectedHabits.value = widget.data.getHabitsForDay(_selectedDay!);
         });
 
       },
@@ -112,12 +112,12 @@ class _CalendarPageState extends State<CalendarPage> {
         });
       },
       onPageChanged: (focusedDay) {
-        _focusedDay = focusedDay;
+        widget.data.focusedDay = focusedDay;
       },
       calendarBuilders: CalendarBuilders(
         defaultBuilder: (context, day, focusedDay) {
-          bool allCompleted = habitData.areAllHabitsComplete(day);
-          bool anyIncompleteBeforeToday = habitData.areAnyHabitsIncomplete(day);
+          bool allCompleted = widget.data.areAllHabitsComplete(day);
+          bool anyIncompleteBeforeToday = widget.data.areAnyHabitsIncomplete(day);
           Color? bgColor;
           if (allCompleted) {
             bgColor = Colors.green;

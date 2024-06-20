@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/pages/wrappers/wrapper.dart';
+import 'package:habitapp/util/habit.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:habitapp/pages/base_scaffold.dart';
@@ -67,14 +68,20 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  final HabitUI data = HabitUI();
+  final List<Widget> _pages = [];
 
-  static const List<Widget> _pages = <Widget>[
-    HomePage(),
-    CalendarPage(),
-    HabitsPage(),
-    AchievementsPage(),
-    FriendsPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pages.addAll([
+      HomePage(),
+      CalendarPage(data: data),
+      HabitsPage(data: data),
+      AchievementsPage(),
+      FriendsPage(),
+    ]);
+  }
 
   void _onItemTapped(int index) {
     setState(() {

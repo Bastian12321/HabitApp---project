@@ -1,10 +1,20 @@
 import 'package:habitapp/util/habit.dart';
 
 class HabitUI {
-  Map<DateTime, List<Habit>> habits = {};
+
+  Map<DateTime, List<Habit>> habits;
+
+  HabitUI(): habits = {};
+
+
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  int _streak = 0;
+
+  DateTime get focusedDay => _focusedDay;
+
+  void set focusedDay(DateTime day) {
+    _focusedDay = day;
+  }
 
   List<Habit> getHabitsForDay(DateTime day) {
     return habits[day] ?? [];

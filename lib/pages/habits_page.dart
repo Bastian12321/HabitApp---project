@@ -3,7 +3,8 @@ import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
 
 class HabitsPage extends StatefulWidget {
-  const HabitsPage({super.key});
+  HabitUI data;
+  HabitsPage({super.key, required this.data});
 
   @override
   State<HabitsPage> createState() => _HabitsPageState();
@@ -12,14 +13,12 @@ class HabitsPage extends StatefulWidget {
 class _HabitsPageState extends State<HabitsPage> {
   late final ValueNotifier<List<Habit>> _selectedHabits;
   TextEditingController _habitController = TextEditingController();
-  DateTime today = DateTime.now();
   String habitName = '';
-  HabitUI habitData= HabitUI();
 
   @override
   void initState() {
     super.initState();
-    _selectedHabits = ValueNotifier(habitData.getHabitsForDay(today));
+    _selectedHabits = ValueNotifier(widget.data.getHabitsForDay(widget.data.focusedDay));
   }
 
   @override
@@ -72,10 +71,10 @@ class _HabitsPageState extends State<HabitsPage> {
                     onPressed: () {
                       habitName = _habitController.text;
                       setState(() {
-                        habitData.addHabit(today, habitName);
-                        _selectedHabits.value = habitData.getHabitsForDay(today);
+                        widget.data.addHabit(widget.data.focusedDay, habitName);
+                        _selectedHabits.value = widget.data.getHabitsForDay(widget.data.focusedDay);
                       });
-                      print(habitData.getHabitsForDay(today));
+                      print(widget.data.getHabitsForDay(widget.data.focusedDay));
                       Navigator.of(context).pop();
                     },
                     child: Text("Submit"),
