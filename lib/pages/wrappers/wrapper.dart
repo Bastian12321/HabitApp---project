@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitapp/main.dart';
 import 'package:habitapp/models/appUser.dart';
-import 'package:habitapp/pages/home_page.dart';
 import 'package:habitapp/pages/wrappers/authenticate.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
     if (appUser == null) {
       return Authenticate();
     } else {
-      return HomePage();
+      return const MainScreen();
     }
   }
 }
