@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitapp/util/loading.dart';
 import 'package:habitapp/util/informationfield.dart';
-import 'package:habitapp/util/auth.dart';
+import 'package:habitapp/services/auth.dart';
 
 class SignupPage extends StatefulWidget {
 

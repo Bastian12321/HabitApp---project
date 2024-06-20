@@ -1,4 +1,4 @@
-import 'package:habitapp/util/auth.dart';
+import 'package:habitapp/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
