@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:habitapp/util/habitinterface.dart';
 
 class Database {
 
@@ -9,9 +10,11 @@ class Database {
   final CollectionReference userData = FirebaseFirestore.instance.collection('collection');
 
   Future updateUserData(String username, String? profilePictureURL) async {
+    HabitUI habitUI = HabitUI();
     return await userData.doc(uid).set({
       'username' : username,
       'profilePicture' : profilePictureURL,
+      'habits' : habitUI.toMap(),
     });
   }
 
@@ -42,6 +45,47 @@ class Database {
     } catch (e) {
       print(e.toString);
       return false;
+    }
+  }
+
+  Future<void> updateHabits(HabitUI habitUI) async {
+    try {
+      await userData.doc(uid).update({
+        'habits': habitUI.toMap(),
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<HabitUI> getHabits() async {
+    try {
+      DocumentSnapshot doc = await userData.doc(uid).get();
+      if (doc.exists) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return HabitUI.fromMap(data);
+      } else {
+        return HabitUI();
+      }
+    } catch (e) {
+      print(e.toString());
+      return HabitUI();
+    }
+  }
+
+  Future<void> addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) async {
+    try {
+      DocumentSnapshot doc = await userData.doc(uid).get();
+      HabitUI habitUI;
+      if (doc.exists) {
+        habitUI = HabitUI.fromMap(doc.data() as Map<String, dynamic>);
+      } else {
+        habitUI = HabitUI();
+      }
+      habitUI.addHabit(day, title, goalamount: goalamount, goalduration: goalduration);
+      await updateHabits(habitUI);
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

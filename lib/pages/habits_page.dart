@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitapp/models/appUser.dart';
+import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:provider/provider.dart';
@@ -67,10 +69,10 @@ class _HabitsPageState extends State<HabitsPage> {
                 ),
                 actions: [
                   ElevatedButton(
-                    onPressed: () {
-                      final data = Provider.of<HabitUI>(context, listen: false);
-                      habitName = _habitController.text;
-                      data.addHabit(data.selectedDay!, habitName);
+                    onPressed: () async {
+                      AppUser user = Provider.of<AppUser>(context, listen: false);
+                      Database db = Database(uid: user.uid);
+                      db.addHabit(HabitUI().selectedDay!, habitName);
                       Navigator.of(context).pop();
                     },
                     child: Text("Submit"),

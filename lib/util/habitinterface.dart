@@ -71,16 +71,40 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addHabit(DateTime day, String title, {int? goalamount, double? goalduration }) {
-   if (habits[day] != null) {
-    habits[day]!.add(Habit(title, goalamount: goalamount));
-   } else {
-    habits[day] = [Habit(title,goalamount: goalamount)];
-   }
-   notifyListeners();
+  void addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) {
+    if (habits[day] != null) {
+      habits[day]!.add(Habit(title, goalamount: goalamount));
+    } else {
+      habits[day] = [Habit(title, goalamount: goalamount)];
+    }
+    notifyListeners();
   }
 
   void updateHabit(Habit habit) {
     notifyListeners();
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> toBeStored = {};
+    habits.forEach((day, habitList) {
+      List<Map<String, dynamic>> convertedHabits =
+          habitList.map((habit) => habit.toMap()).toList();
+      toBeStored[day.toIso8601String()] = convertedHabits;
+    });
+    return {'habits': toBeStored};
+  }
+
+  static HabitUI fromMap(Map<String, dynamic> map) {
+    HabitUI habitUI = HabitUI();
+    if (map['habits'] != null) {
+      Map<String, dynamic> fromDataBase = map['habits'];
+      fromDataBase.forEach((dayString, habitList) {
+        DateTime day = DateTime.parse(dayString);
+        List<Habit> habits =
+            (habitList as List<dynamic>).map((habit) => Habit.fromMap(habit)).toList();
+        habitUI.habits[day] = habits;
+      });
+    }
+    return habitUI;
   }
 }

@@ -54,7 +54,7 @@ class Auth {
       if (user != null) {
         String uid = user.uid;
         String tempName = 'new_user-${uid.substring(uid.length - 8)}';
-        await Database(uid: uid).updateUserData(tempName, null, habits);
+        await Database(uid: uid).updateUserData(tempName, null);
       }
       return _appUserFromFirebaseUser(user);
     } catch (e) {

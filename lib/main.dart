@@ -14,7 +14,6 @@ import 'pages/wrappers/wrapper.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
-import 'pages/friends_page.dart';
 import 'pages/achievements_page.dart';
 import 'package:habitapp/main_screen.dart';
 import 'package:habitapp/util/habitinterface.dart';
@@ -66,7 +65,7 @@ class MyApp extends StatelessWidget {
           '/calendar': (context) => CalendarPage(),
           '/habits': (context) => HabitsPage(),
           '/journal': (context) => const JournalPage(),
-            '/friends': (context) => const FriendsPage(),
+            '/friends': (context) => const ProfilePage(),
         },
         debugShowCheckedModeBanner: false,
       ),
