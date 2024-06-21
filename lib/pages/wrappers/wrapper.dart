@@ -3,6 +3,7 @@ import 'package:habitapp/main.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/pages/wrappers/authenticate.dart';
 import 'package:provider/provider.dart';
+import 'package:habitapp/main_screen.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
