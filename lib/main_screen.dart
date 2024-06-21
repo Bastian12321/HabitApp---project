@@ -8,6 +8,7 @@ import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/pages/habits_page.dart';
 import 'package:habitapp/pages/friends_page.dart';
 import 'package:habitapp/util/habitinterface.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,9 +20,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-
-  // Initialize HabitUI
-  final HabitUI habitUI = HabitUI();
 
   late final List<Widget> _pages;
 
@@ -35,12 +33,11 @@ class _MainScreenState extends State<MainScreen> {
       const JournalPage(),
       const FriendsPage(),
     ];
+    final data = Provider.of<HabitUI>(context, listen: false);
     Timer.periodic(const Duration(seconds: 60), (timer) {
       DateTime now = DateTime.now();
-      if (!isSameDay(habitUI.currentDay, now)) {
-        setState(() {
-          habitUI.currentDay = now;
-        });
+      if (!isSameDay(data.currentDay, now)) {
+        data.currentDay = now;
       }
     }
     );

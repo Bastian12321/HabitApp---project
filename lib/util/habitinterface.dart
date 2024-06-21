@@ -7,7 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 class HabitUI extends ChangeNotifier{
   DateTime _currentDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
 
   DateTime get focusedDay => _focusedDay;
   DateTime get currentDay => _currentDay;

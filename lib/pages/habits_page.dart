@@ -19,13 +19,11 @@ class _HabitsPageState extends State<HabitsPage> {
   void initState() {
     super.initState();
     final data = Provider.of<HabitUI>(context, listen: false);
-    _selectedHabits = ValueNotifier(data.getHabitsForDay(data.focusedDay));
   }
 
   @override
   void dispose() {
     _habitController.dispose();
-    _selectedHabits.dispose();
     super.dispose();
   }
 
@@ -72,8 +70,7 @@ class _HabitsPageState extends State<HabitsPage> {
                     onPressed: () {
                       final data = Provider.of<HabitUI>(context, listen: false);
                       habitName = _habitController.text;
-                      data.addHabit(data.currentDay, habitName);
-                      _selectedHabits.value = data.getHabitsForDay(data.currentDay);
+                      data.addHabit(data.selectedDay!, habitName);
                       Navigator.of(context).pop();
                     },
                     child: Text("Submit"),

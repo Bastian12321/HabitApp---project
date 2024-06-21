@@ -19,7 +19,7 @@ class _CalendarPageState extends State<CalendarPage> {
   void initState() {
     super.initState();
     final data = Provider.of<HabitUI>(context, listen: false);
-    _selectedHabits = ValueNotifier(data.getHabitsForDay(data.focusedDay!));
+    _selectedHabits = ValueNotifier(data.getHabitsForDay(data.focusedDay));
   }
 
  @override

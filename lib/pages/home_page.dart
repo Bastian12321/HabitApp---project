@@ -13,17 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _MyWidgetState extends State<HomePage> {
   final Auth _auth = Auth();
-  late final ValueNotifier<List<Habit>> _selectedHabits;
-  late final ValueNotifier<DateTime> currentDay;
-
- @override
-  void dispose() {
-    _selectedHabits.dispose();
-    currentDay.dispose();
-    super.dispose();
-  }
-  
-  
 
 @override
   Widget build(BuildContext context) {
