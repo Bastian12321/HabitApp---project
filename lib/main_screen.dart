@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:habitapp/pages/base_scaffold.dart';
 import 'package:habitapp/pages/journal_page.dart';
@@ -6,6 +8,7 @@ import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/pages/habits_page.dart';
 import 'package:habitapp/pages/friends_page.dart';
 import 'package:habitapp/util/habitinterface.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -32,6 +35,15 @@ class _MainScreenState extends State<MainScreen> {
       const JournalPage(),
       const FriendsPage(),
     ];
+    Timer.periodic(const Duration(seconds: 60), (timer) {
+      DateTime now = DateTime.now();
+      if (!isSameDay(habitUI.currentDay, now)) {
+        setState(() {
+          habitUI.currentDay = now;
+        });
+      }
+    }
+    );
   }
 
   void _onItemTapped(int index) {
