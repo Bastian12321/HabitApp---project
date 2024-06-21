@@ -1,8 +1,11 @@
 import 'package:habitapp/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:habitapp/util/habit.dart';
+import 'package:habitapp/util/habitinterface.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   State<HomePage> createState() => _MyWidgetState();
@@ -11,9 +14,12 @@ class HomePage extends StatefulWidget {
 class _MyWidgetState extends State<HomePage> {
   final Auth _auth = Auth();
 
-  @override
+@override
   Widget build(BuildContext context) {
-     return Scaffold(
+    final data = Provider.of<HabitUI>(context);
+    final habits = data.getHabitsForDay(data.currentDay);
+
+    return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Home',
@@ -32,6 +38,90 @@ class _MyWidgetState extends State<HomePage> {
           ),
         ],
       ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.topCenter,
+            padding: EdgeInsets.symmetric(vertical: 20),
+            color: const Color.fromARGB(255, 210, 142, 134),
+            child: const Text(
+              'Habits for today',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildHabitSection("Not Completed Habits", habits.where((habit) => !habit.done).toList(), false),
+                  _buildHabitSection("Completed Habits", habits.where((habit) => habit.done).toList(), true),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHabitSection(String title, List<Habit> habits, bool showCheckbox) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: habits.length,
+          itemBuilder: (context, index) {
+            final habit = habits[index];
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                onTap: () {
+                  setState(() {
+                    if (habit.done) {
+                      habit.incomplete();
+                    } else {
+                      habit.complete();
+                    }
+                    Provider.of<HabitUI>(context, listen: false).updateHabit(habit);
+                  });
+                },
+                title: Text(
+                  habit.toString(),
+                  style: TextStyle(
+                    decoration: habit.done ? TextDecoration.lineThrough : TextDecoration.none,
+                  ),
+                ),
+                trailing: showCheckbox
+                    ? Icon(
+                        habit.done ? Icons.check_box : Icons.check_box_outline_blank,
+                        color: habit.done ? Colors.green : null,
+                      )
+                    : null,
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

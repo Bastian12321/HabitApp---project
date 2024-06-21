@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
+import 'package:provider/provider.dart';
 
 class HabitsPage extends StatefulWidget {
-  HabitUI data;
-  HabitsPage({super.key, required this.data});
+  HabitsPage({super.key});
 
   @override
   State<HabitsPage> createState() => _HabitsPageState();
@@ -18,13 +18,12 @@ class _HabitsPageState extends State<HabitsPage> {
   @override
   void initState() {
     super.initState();
-    _selectedHabits = ValueNotifier(widget.data.getHabitsForDay(widget.data.focusedDay));
+    final data = Provider.of<HabitUI>(context, listen: false);
   }
 
   @override
   void dispose() {
     _habitController.dispose();
-    _selectedHabits.dispose();
     super.dispose();
   }
 
@@ -69,12 +68,9 @@ class _HabitsPageState extends State<HabitsPage> {
                 actions: [
                   ElevatedButton(
                     onPressed: () {
+                      final data = Provider.of<HabitUI>(context, listen: false);
                       habitName = _habitController.text;
-                      setState(() {
-                        widget.data.addHabit(widget.data.focusedDay, habitName);
-                        _selectedHabits.value = widget.data.getHabitsForDay(widget.data.focusedDay);
-                      });
-                      print(widget.data.getHabitsForDay(widget.data.focusedDay));
+                      data.addHabit(data.selectedDay!, habitName);
                       Navigator.of(context).pop();
                     },
                     child: Text("Submit"),

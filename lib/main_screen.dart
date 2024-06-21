@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:habitapp/pages/base_scaffold.dart';
 import 'package:habitapp/pages/journal_page.dart';
@@ -6,6 +8,8 @@ import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/pages/habits_page.dart';
 import 'package:habitapp/pages/profile_page.dart';
 import 'package:habitapp/util/habitinterface.dart';
+import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,21 +21,26 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  // Initialize HabitUI
-  final HabitUI habitUI = HabitUI();
-
   late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
     _pages = <Widget>[
-      const HomePage(),
-      CalendarPage(data: habitUI),
-      HabitsPage(data: habitUI),
+      HomePage(),
+      CalendarPage(),
+      HabitsPage(),
       const JournalPage(),
       const ProfilePage(),
     ];
+    final data = Provider.of<HabitUI>(context, listen: false);
+    Timer.periodic(const Duration(seconds: 60), (timer) {
+      DateTime now = DateTime.now();
+      if (!isSameDay(data.currentDay, now)) {
+        data.currentDay = now;
+      }
+    }
+    );
   }
 
   void _onItemTapped(int index) {
