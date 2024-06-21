@@ -1,10 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:habitapp/models/appUser.dart';
+import 'package:habitapp/services/auth.dart';
+import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/audio_recorder.dart';
+import 'package:habitapp/util/new_username.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:habitapp/pages/home_page.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
+
   const ProfilePage({super.key});
 
   @override
@@ -16,7 +22,10 @@ class _ProfilePageState extends State<ProfilePage> {
   int habitsCompleted = 0;
   int totalNoOfHabits = 10;
   File? _image;
+  String email = 'Loading email...';
+  String username = 'Loading username...';
 
+  final Auth _auth = Auth();
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage(ImageSource source) async {
@@ -62,6 +71,49 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+
+
+  Future<void> _loadUserdata() async {
+    try {
+      final currentUser = Provider.of<AppUser?>(context, listen: false);
+      if (currentUser == null) {
+        throw Exception('User not found');
+      }
+
+      final String uid = currentUser.uid;
+      final Database database = Database(uid: uid);
+
+      String usernameFromDatabase = await database.getUsername();
+      String emailFromAuthenticator = _auth.getUserEmail()!;
+
+      if (!mounted) return;
+
+      setState(() {
+        email = emailFromAuthenticator;
+        username = usernameFromDatabase;
+      });
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserdata();
+  }
+
+
+  void changeName(BuildContext context) {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return NewNameField(update: _loadUserdata);
+      }
+    );
+  } 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundImage: _image != null
                       ? FileImage(_image!)
                       : const AssetImage('assets/images/ProfilePicture.png') as ImageProvider,
-                  child: _image == null ? const Icon(Icons.add_a_photo, size: 50,) : null,
+                  child: _image == null ? const Icon(Icons.add_a_photo, size: 40,) : null,
                 ),
               ),
             ),
@@ -101,25 +153,49 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 10,
               ),
             ),
-            const SizedBox(height: 10,),
+            Row(
+              children: [
+                Text(
+                  username,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    letterSpacing: 2.0,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    changeName(context);
+                  },
+                  icon: const Icon(
+                    Icons.edit_outlined,
+                    size: 25,
+                    color: Colors.white
+                  )
+                )
+              ],
+            ),
+            const SizedBox(height: 30),
             const Text(
-              '"Name of user"',
+              'EMAIL',
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 2.0,
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
+                fontSize: 10,
               ),
             ),
-            const SizedBox(height: 30,),
-            const Row(
+            const SizedBox(height: 10),
+            Row(
               children: [
-                Icon(
-                  Icons.email,
+                const Icon(
+                  Icons.email_outlined,
+                  color: Colors.white,
                 ),
+                const SizedBox(width: 10),
                 Text(
-                  'user@email.com',
-                  style: TextStyle(
+                  email,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     letterSpacing: 2.0,
@@ -128,16 +204,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SizedBox(height: 30,),
-            const Text(
-              'JOURNAL',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                letterSpacing: 2.0,
-              ),
-            ),
-            const SizedBox(height: 10,),
-            const AudioRecorder(),
           ],
         ),
       ),

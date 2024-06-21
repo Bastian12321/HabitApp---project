@@ -50,7 +50,7 @@ class Auth {
 
       if (user != null) {
         String uid = user.uid;
-        String tempName = 'guest-${uid.substring(uid.length - 8)}';
+        String tempName = 'new_user-${uid.substring(uid.length - 8)}';
         await Database(uid: uid).updateUserData(tempName, null);
       }
       return _appUserFromFirebaseUser(user);
@@ -66,5 +66,15 @@ class Auth {
       print(e.toString());
       return null;
     }
+  }
+
+  String getUserid() {
+    User? user = _firebaseAuth.currentUser;
+    return user != null ? user.uid : '';
+  }
+
+  String? getUserEmail() {
+    User? user = _firebaseAuth.currentUser;
+    return user?.email;
   }
 }

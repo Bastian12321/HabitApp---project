@@ -41,8 +41,8 @@ class BaseScaffold extends StatelessWidget {
               label: 'Achievements',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Friends',
+              icon: Icon(Icons.person),
+              label: 'Account',
             ),
           ],
           currentIndex: selectedIndex,
