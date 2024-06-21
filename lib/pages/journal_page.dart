@@ -45,7 +45,7 @@ class _JournalPageState extends State <JournalPage> {
                   maxLines: 10,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Your diary entry',
+                    labelText: 'Your journal entry',
                   ),
                 ),
               ],

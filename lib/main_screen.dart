@@ -26,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pages = <Widget>[
-      const HomePage(),
+      HomePage(data: habitUI),
       CalendarPage(data: habitUI),
       HabitsPage(data: habitUI),
       const JournalPage(),
