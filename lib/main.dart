@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:habitapp/pages/journal_page.dart';
+import 'package:habitapp/models/appUser.dart';
+import 'package:habitapp/pages/profile_page.dart';
+import 'package:habitapp/pages/wrappers/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'services/auth.dart';
@@ -12,6 +15,7 @@ import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
 import 'pages/friends_page.dart';
+import 'pages/achievements_page.dart';
 import 'package:habitapp/main_screen.dart';
 import 'package:habitapp/util/habitinterface.dart';
 
@@ -30,7 +34,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final HabitUI habitUI = HabitUI();
 
   @override
   Widget build(BuildContext context) {

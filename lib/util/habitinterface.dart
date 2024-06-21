@@ -1,8 +1,9 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:habitapp/util/habit.dart';
+
 
 class HabitUI extends ChangeNotifier{
   DateTime _currentDay = DateTime.now();
@@ -72,9 +73,9 @@ class HabitUI extends ChangeNotifier{
 
   void addHabit(DateTime day, String title, {int? goalamount, double? goalduration }) {
    if (habits[day] != null) {
-    habits[day]!.add(Habit(title, goalamount: goalamount, goalduration: goalduration));
+    habits[day]!.add(Habit(title, goalamount: goalamount));
    } else {
-    habits[day] = [Habit(title,goalamount: goalamount, goalduration: goalduration)];
+    habits[day] = [Habit(title,goalamount: goalamount)];
    }
    notifyListeners();
   }
