@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 class BaseScaffold extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
-  final Widget body;
+  final List<Widget> pages;
 
   const BaseScaffold({
     required this.selectedIndex,
     required this.onItemTapped,
-    required this.body,
+    required this.pages,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body,
+      body: IndexedStack(
+        index: selectedIndex,
+        children: pages,
+      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30.0),
@@ -37,8 +40,8 @@ class BaseScaffold extends StatelessWidget {
               label: 'Habits',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.emoji_events),
-              label: 'Achievements',
+              icon: Icon(Icons.book_rounded),
+              label: 'Journal',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.people),

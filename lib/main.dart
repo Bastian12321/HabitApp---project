@@ -1,33 +1,30 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:habitapp/models/appUser.dart';
-import 'package:habitapp/pages/wrappers/wrapper.dart';
-import 'package:habitapp/util/habit.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'package:habitapp/pages/base_scaffold.dart';
-import 'package:habitapp/pages/calendar_page.dart';
-import 'package:habitapp/pages/achievements_page.dart';
-import 'package:habitapp/pages/habits_page.dart';
-import 'package:habitapp/pages/friends_page.dart';
-import 'package:habitapp/pages/home_page.dart';
-import 'package:habitapp/services/auth.dart';
+import 'services/auth.dart';
+import 'models/appUser.dart';
+import 'pages/wrappers/wrapper.dart';
+import 'pages/home_page.dart';
+import 'pages/calendar_page.dart';
+import 'pages/habits_page.dart';
+import 'pages/achievements_page.dart';
+import 'pages/friends_page.dart';
+import 'package:habitapp/main_screen.dart';
 import 'package:habitapp/util/habitinterface.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
-  runApp(const MyApp());
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final HabitUI habitUI = HabitUI();
 
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return StreamProvider<AppUser?>.value(
@@ -36,7 +33,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           primaryColor: Color(0xFF1D716F),
-          //Color.fromARGB(227, 255, 226, 223),
           scaffoldBackgroundColor: Color(0xFFAAAAAA),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF0D494E),
@@ -52,50 +48,18 @@ class MyApp extends StatelessWidget {
             selectedItemColor: Color.fromARGB(255, 210, 142, 134),
           ),
         ),
-        home: const Wrapper(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Wrapper(),
+          '/main': (context) => const MainScreen(),
+          '/home': (context) => const HomePage(),
+          '/calendar': (context) => CalendarPage(data: habitUI),
+          '/habits': (context) => HabitsPage(data: habitUI),
+          '/achievements': (context) => const AchievementsPage(),
+          '/friends': (context) => const FriendsPage(),
+        },
         debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
-
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
-
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
-  final HabitUI data = HabitUI();
-  final List<Widget> _pages = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _pages.addAll([
-      HomePage(),
-      CalendarPage(data: data),
-      HabitsPage(data: data),
-      AchievementsPage(),
-      FriendsPage(),
-    ]);
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BaseScaffold(
-      selectedIndex: _selectedIndex,
-      onItemTapped: _onItemTapped,
-      body: _pages.elementAt(_selectedIndex),
-    );
-  }
-}
-
