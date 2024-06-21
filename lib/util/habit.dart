@@ -1,12 +1,10 @@
 class Habit {
   final String title;
   final int? goalamount;
-  final double? goalduration;
   int _amount = 0;
-  double _duration = 0;
   bool _done = false;
 
-  Habit(this.title, {this.goalamount, this.goalduration});
+  Habit(this.title, {this.goalamount});
 
   bool get done => _done;
 
@@ -33,16 +31,25 @@ class Habit {
     }
   }
 
-  void updateDuration(double duration) {
-    _duration = duration;
-    if (this.duration >= goalduration!) {
-      complete();
-    }
-  }
-
   int get amount => _amount;
 
-  double get duration => _duration;
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'goalamount' : goalamount,
+      'amount' : _amount,
+      'done' : _done,
+    };
+  }
+
+  static Habit fromMap(Map<String, dynamic> map) {
+    return Habit(
+      map['title'],
+      goalamount: map['goalamount'],
+    )
+    .._amount = map['amount'] ?? 0
+    .._done = map['done'] ?? false;
+  }
 
   @override
   String toString() => title;

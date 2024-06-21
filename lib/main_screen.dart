@@ -4,7 +4,7 @@ import 'package:habitapp/pages/journal_page.dart';
 import 'package:habitapp/pages/home_page.dart';
 import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/pages/habits_page.dart';
-import 'package:habitapp/pages/friends_page.dart';
+import 'package:habitapp/pages/profile_page.dart';
 import 'package:habitapp/util/habitinterface.dart';
 
 class MainScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
       CalendarPage(data: habitUI),
       HabitsPage(data: habitUI),
       const JournalPage(),
-      const FriendsPage(),
+      const ProfilePage(),
     ];
   }
 

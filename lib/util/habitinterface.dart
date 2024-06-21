@@ -5,7 +5,7 @@ class HabitUI {
   Map<DateTime, List<Habit>> habits;
 
   HabitUI(): habits = {};
-
+ 
 
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -52,9 +52,9 @@ class HabitUI {
 
   void addHabit(DateTime day, String title, {int? goalamount, double? goalduration }) {
    if (habits[day] != null) {
-    habits[day]!.add(Habit(title, goalamount: goalamount, goalduration: goalduration));
+    habits[day]!.add(Habit(title, goalamount: goalamount));
    } else {
-    habits[day] = [Habit(title,goalamount: goalamount, goalduration: goalduration)];
+    habits[day] = [Habit(title,goalamount: goalamount)];
    }
   }
 }

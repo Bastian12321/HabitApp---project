@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/database.dart';
 
+import 'package:habitapp/util/habitinterface.dart';
+
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final HabitUI habits = HabitUI();
 
   AppUser? _appUserFromFirebaseUser(User? user) {
     return user != null ? AppUser(uid: user.uid) : null;
@@ -50,8 +53,8 @@ class Auth {
 
       if (user != null) {
         String uid = user.uid;
-        String tempName = 'guest-${uid.substring(uid.length - 8)}';
-        await Database(uid: uid).updateUserData(tempName, null);
+        String tempName = 'new_user-${uid.substring(uid.length - 8)}';
+        await Database(uid: uid).updateUserData(tempName, null, habits);
       }
       return _appUserFromFirebaseUser(user);
     } catch (e) {
@@ -66,5 +69,15 @@ class Auth {
       print(e.toString());
       return null;
     }
+  }
+
+  String getUserid() {
+    User? user = _firebaseAuth.currentUser;
+    return user != null ? user.uid : '';
+  }
+
+  String? getUserEmail() {
+    User? user = _firebaseAuth.currentUser;
+    return user?.email;
   }
 }

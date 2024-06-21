@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:habitapp/models/appUser.dart';
+import 'package:habitapp/pages/profile_page.dart';
+import 'package:habitapp/pages/wrappers/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'services/auth.dart';
@@ -9,7 +12,6 @@ import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
 import 'pages/achievements_page.dart';
-import 'pages/friends_page.dart';
 import 'package:habitapp/main_screen.dart';
 import 'package:habitapp/util/habitinterface.dart';
 
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
           '/calendar': (context) => CalendarPage(data: habitUI),
           '/habits': (context) => HabitsPage(data: habitUI),
           '/achievements': (context) => const AchievementsPage(),
-          '/friends': (context) => const FriendsPage(),
+          '/profile': (context) => const ProfilePage(),
         },
         debugShowCheckedModeBanner: false,
       ),
