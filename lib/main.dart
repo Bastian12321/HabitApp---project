@@ -20,7 +20,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => HabitUI(),
+      child: MyApp(),
+    ),
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -54,9 +59,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const Wrapper(),
           '/main': (context) => const MainScreen(),
-          '/home': (context) => HomePage(data: habitUI),
-          '/calendar': (context) => CalendarPage(data: habitUI),
-          '/habits': (context) => HabitsPage(data: habitUI),
+          '/home': (context) => HomePage(),
+          '/calendar': (context) => CalendarPage(),
+          '/habits': (context) => HabitsPage(),
           '/journal': (context) => const JournalPage(),
             '/friends': (context) => const FriendsPage(),
         },
