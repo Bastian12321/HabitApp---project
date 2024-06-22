@@ -98,7 +98,6 @@ class HabitUI extends ChangeNotifier{
 
   static HabitUI fromMap(Map<String, dynamic> map) {
   HabitUI habitUI = HabitUI();
-  print(map['habitlist']);
   if (map['habitlist'] != null) {
     Map<String, dynamic> habitsMap = map['habitlist'];
     habitsMap.forEach((dayString, habitList) {

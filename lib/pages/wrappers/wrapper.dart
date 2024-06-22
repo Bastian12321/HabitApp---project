@@ -31,6 +31,8 @@ class Wrapper extends StatelessWidget {
             try {
               HabitUI habitUI = Provider.of<HabitUI>(context, listen: false);
               habitUI.updateFrom(HabitUI.fromMap(snapshot.data!['habitdata']));
+              habitUI.streak = snapshot.data!['topstreak'];
+              habitUI.currentstreak = snapshot.data!['currentstreak'];
               return MainScreen();
             } catch (e) {
               return Center(child: Text('Error updating habits: $e'));

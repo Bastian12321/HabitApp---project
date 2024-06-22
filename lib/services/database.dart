@@ -83,18 +83,6 @@ class Database {
     }
   }
 
-  Future<void> getStreak(HabitUI data) async {
-    try {
-      DocumentSnapshot doc = await userData.doc(uid).get();
-      if (doc.exists) {
-        data.currentstreak = doc['currentstreak'];
-        data.currentstreak = doc['streak'];
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
 
   Future<void> addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) async {
     try {
