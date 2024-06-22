@@ -130,7 +130,7 @@ class HabitUI extends ChangeNotifier{
   void updateStreak() {
     DateTime check = _currentDay;
     if(!isSameDay(check, DateTime.now())) {
-      if(areAllHabitsComplete(_currentDay)) {
+      if(areAllHabitsComplete(check)) {
         currentstreak++;
         if (currentstreak > streak) {
           streak = currentstreak;
@@ -143,7 +143,7 @@ class HabitUI extends ChangeNotifier{
       }
     }
     _currentDay = DateTime.now();
-    db!.updateHabits(this);
+    db!.updateStreak(this);
     notifyListeners();
   }
 
