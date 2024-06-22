@@ -32,6 +32,9 @@ class Wrapper extends StatelessWidget {
               HabitUI habitUI = Provider.of<HabitUI>(context, listen: false);
               habitUI.updateFrom(HabitUI.fromMap(snapshot.data!['habitdata']));
               habitUI.user(user);
+              if (snapshot.data!.containsKey('currentDay')) {
+                habitUI.currentDay = DateTime.parse(snapshot.data!['currentDay']);
+              }
               if (snapshot.data!.containsKey('topstreak')) {
                 habitUI.currentstreak = snapshot.data!['currentstreak'];
                 habitUI.streak = snapshot.data!['topstreak'];

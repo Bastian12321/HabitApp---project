@@ -51,6 +51,7 @@ class Database {
     try {
       await userData.doc(uid).update({
         'habitdata': habitUI.toMap(),
+        'currentDay': habitUI.currentDay.toIso8601String(),
       });
     } catch (e) {
       print(e.toString());
