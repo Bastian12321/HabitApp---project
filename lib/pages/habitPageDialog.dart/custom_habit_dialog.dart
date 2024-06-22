@@ -40,7 +40,7 @@ void showCustomHabitDialog(BuildContext context, HabitUI data, ValueNotifier<Lis
                   TextField(
                     controller: integerController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Integer up to 100'),
+                    decoration: InputDecoration(labelText: 'Days Habit is repeated'),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   if (showGoalAmountField)
@@ -70,9 +70,9 @@ void showCustomHabitDialog(BuildContext context, HabitUI data, ValueNotifier<Lis
                   int day = frequencyToInt(frequency);
 
                   // Validate integer value
-                  if (integerValue < 1 || integerValue > 100) {
+                  if (integerValue < 1 || integerValue > 1095) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Please enter a value between 1 and 100')),
+                      SnackBar(content: Text('Please enter a value between 1 and 1095')),
                     );
                     return;
                   }
