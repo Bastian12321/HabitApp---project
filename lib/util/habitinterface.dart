@@ -115,11 +115,15 @@ class HabitUI extends ChangeNotifier{
   }
 
   void updateStreak() {
-    if(!isSameDay(currentDay, DateTime.now())) {
+    DateTime check = _currentDay;
+    if(!isSameDay(check, DateTime.now())) {
       if(areAllHabitsComplete(_currentDay)) {
         currentstreak++;
         if (currentstreak > streak) {
           streak = currentstreak;
+        }
+        if(!isSameDay(check.add(const Duration(days: 1)), DateTime.now())) {
+          currentstreak = 0;
         }
       } else {
         currentstreak = 0;
