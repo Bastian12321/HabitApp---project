@@ -44,6 +44,8 @@ dependencies:
   image_picker: ^1.1.2
   flutter_sound: ^9.6.0
   permission_handler: ^11.3.1
+  just_audio: ^0.9.38
+  record: ^5.1.1
 
 dev_dependencies:
   flutter_test:

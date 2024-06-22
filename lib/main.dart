@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:habitapp/pages/journal_page.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/pages/profile_page.dart';
 import 'package:habitapp/pages/wrappers/wrapper.dart';
+import 'package:habitapp/util/audio.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'services/auth.dart';
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           '/calendar': (context) => CalendarPage(),
           '/habits': (context) => HabitsPage(),
           '/journal': (context) => const JournalPage(),
-            '/friends': (context) => const ProfilePage(),
+          '/friends': (context) => AudioPage(),
         },
         debugShowCheckedModeBanner: false,
       ),

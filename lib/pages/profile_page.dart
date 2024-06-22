@@ -19,8 +19,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  int habitsCompleted = 0;
-  int totalNoOfHabits = 10;
+  //int habitsCompleted = 0;
+  //int totalNoOfHabits = 10;
   File? _image;
   String email = 'Loading email...';
   String username = 'Loading username...';

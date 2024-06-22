@@ -7,6 +7,7 @@ import 'package:habitapp/pages/home_page.dart';
 import 'package:habitapp/pages/calendar_page.dart';
 import 'package:habitapp/pages/habits_page.dart';
 import 'package:habitapp/pages/profile_page.dart';
+import 'package:habitapp/util/audio.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -31,7 +32,8 @@ class _MainScreenState extends State<MainScreen> {
       CalendarPage(),
       HabitsPage(),
       const JournalPage(),
-      const ProfilePage(),
+      //const ProfilePage(),
+      AudioPage(),
     ];
     final data = Provider.of<HabitUI>(context, listen: false);
     Timer.periodic(const Duration(seconds: 60), (timer) {
