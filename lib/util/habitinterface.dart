@@ -91,20 +91,37 @@ class HabitUI extends ChangeNotifier{
           habitList.map((habit) => habit.toMap()).toList();
       toBeStored[day.toIso8601String()] = convertedHabits;
     });
-    return {'habits': toBeStored};
+    return {'habitlist': toBeStored};
   }
 
   static HabitUI fromMap(Map<String, dynamic> map) {
-    HabitUI habitUI = HabitUI();
-    if (map['habits'] != null) {
-      Map<String, dynamic> fromDataBase = map['habits'];
-      fromDataBase.forEach((dayString, habitList) {
+  HabitUI habitUI = HabitUI();
+  print(map['habitlist']);
+  if (map['habitlist'] != null) {
+    Map<String, dynamic> habitsMap = map['habitlist'];
+    habitsMap.forEach((dayString, habitList) {
+      try {
         DateTime day = DateTime.parse(dayString);
         List<Habit> habits =
-            (habitList as List<dynamic>).map((habit) => Habit.fromMap(habit)).toList();
+            (habitList as List<dynamic>).map((habitData) => Habit.fromMap(habitData)).toList();
         habitUI.habits[day] = habits;
-      });
-    }
-    return habitUI;
+      } catch (e) {
+        print('Error parsing habits for $dayString: $e');
+      }
+    });
+  }
+  return habitUI;
+}
+
+  void updateFrom(HabitUI other) {
+    _currentDay = other._currentDay;
+    _focusedDay = other._focusedDay;
+    _selectedDay = other._selectedDay;
+
+    habits.clear();
+    other.habits.forEach((day, habitList) {
+      habits[day] = List<Habit>.from(habitList.map((habit) => habit.clone()));
+    });
+    notifyListeners();
   }
 }

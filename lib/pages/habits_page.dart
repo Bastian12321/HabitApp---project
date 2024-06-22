@@ -31,6 +31,9 @@ class _HabitsPageState extends State<HabitsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<HabitUI>(context);
+    AppUser user = Provider.of<AppUser>(context, listen: false);
+    Database db = Database(uid: user.uid);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -69,10 +72,9 @@ class _HabitsPageState extends State<HabitsPage> {
                 ),
                 actions: [
                   ElevatedButton(
-                    onPressed: () async {
-                      AppUser user = Provider.of<AppUser>(context, listen: false);
-                      Database db = Database(uid: user.uid);
-                      db.addHabit(HabitUI().selectedDay!, habitName);
+                    onPressed: () {
+                      data.addHabit(data.selectedDay!, _habitController.text);
+                      db.updateHabits(data);
                       Navigator.of(context).pop();
                     },
                     child: Text("Submit"),

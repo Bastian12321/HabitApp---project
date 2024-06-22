@@ -14,7 +14,7 @@ class Database {
     return await userData.doc(uid).set({
       'username' : username,
       'profilePicture' : profilePictureURL,
-      'habits' : habitUI.toMap(),
+      'habitdata' : habitUI.toMap(),
     });
   }
 
@@ -51,27 +51,28 @@ class Database {
   Future<void> updateHabits(HabitUI habitUI) async {
     try {
       await userData.doc(uid).update({
-        'habits': habitUI.toMap(),
+        'habitdata': habitUI.toMap(),
       });
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future<HabitUI> getHabits() async {
+  Future<Map<String, dynamic>> getHabits() async {
     try {
-      DocumentSnapshot doc = await userData.doc(uid).get();
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('collection').doc(uid).get();
       if (doc.exists) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        return HabitUI.fromMap(data);
+        return data;
       } else {
-        return HabitUI();
+        return {};
       }
     } catch (e) {
-      print(e.toString());
-      return HabitUI();
+      print('Error fetching habits: ${e.toString()}');
+      return {};
     }
   }
+
 
   Future<void> addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) async {
     try {

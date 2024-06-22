@@ -1,5 +1,7 @@
+import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +35,7 @@ class _MyWidgetState extends State<HomePage> {
             icon: Icon(Icons.person),
             label: Text('logout'),
             onPressed: () async {
+              print('hey');
               await _auth.signOut();
             },
           ),
@@ -69,6 +72,9 @@ class _MyWidgetState extends State<HomePage> {
   }
 
   Widget _buildHabitSection(String title, List<Habit> habits, bool showCheckbox) {
+    final data = Provider.of<HabitUI>(context);
+    AppUser user = Provider.of<AppUser>(context, listen: false);
+    Database db = Database(uid: user.uid);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -102,6 +108,7 @@ class _MyWidgetState extends State<HomePage> {
                     } else {
                       habit.complete();
                     }
+                    db.updateHabits(data);
                     Provider.of<HabitUI>(context, listen: false).updateHabit(habit);
                   });
                 },

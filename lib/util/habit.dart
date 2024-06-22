@@ -50,6 +50,15 @@ class Habit {
     .._amount = map['amount'] ?? 0
     .._done = map['done'] ?? false;
   }
+  
+   Habit clone() {
+    return Habit(
+      title,
+      goalamount: goalamount,
+    )
+    .._amount = _amount
+    .._done = _done;
+  }
 
   @override
   String toString() => title;
