@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           '/calendar': (context) => CalendarPage(data: habitUI),
           '/habits': (context) => HabitsPage(data: habitUI),
           '/journal': (context) => const JournalPage(),
-            '/friends': (context) => const FriendsPage(),
+          '/friends': (context) => const FriendsPage(),
         },
         debugShowCheckedModeBanner: false,
       ),
