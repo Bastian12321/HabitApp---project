@@ -1,11 +1,15 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:habitapp/models/appUser.dart';
+import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:habitapp/util/habit.dart';
 
 
 class HabitUI extends ChangeNotifier{
+  AppUser? _user;
+  Database? db;
   DateTime _currentDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
@@ -20,6 +24,11 @@ class HabitUI extends ChangeNotifier{
     equals: isSameDay,
     hashCode: (DateTime key) => key.day * 1000000 + key.month * 10000 + key.year,
   );
+
+  void user(AppUser login) {
+    _user = login;
+    db = Database(uid: login.uid);
+  }
 
   set focusedDay(DateTime day) {
     _focusedDay = day;
@@ -60,16 +69,19 @@ class HabitUI extends ChangeNotifier{
 
   void increaseAmount(Habit habit) {
     habit.increaseAmount();
+    db!.updateHabits(this);
     notifyListeners();
   }
 
    void decreaseAmount(Habit habit) {
     habit.decreaseAmount();
+    db!.updateHabits(this);
     notifyListeners();
   }
 
   void removeHabit(DateTime day, Habit habit) {
     getHabitsForDay(day).remove(habit);
+    db!.updateHabits(this);
     notifyListeners();
   }
 
@@ -79,10 +91,12 @@ class HabitUI extends ChangeNotifier{
     } else {
       habits[day] = [Habit(title, goalamount: goalamount)];
     }
+    db!.updateHabits(this);
     notifyListeners();
   }
 
   void updateHabit(Habit habit) {
+    db!.updateHabits(this);
     notifyListeners();
   }
 
@@ -130,6 +144,7 @@ class HabitUI extends ChangeNotifier{
       }
     }
     _currentDay = DateTime.now();
+    db!.updateHabits(this);
     notifyListeners();
   }
 

@@ -36,13 +36,10 @@ class _MainScreenState extends State<MainScreen> {
       const ProfilePage(),
     ];
     final data = Provider.of<HabitUI>(context, listen: false);
-    AppUser user = Provider.of<AppUser>(context, listen: false);
-    Database db = Database(uid: user.uid);
     Timer.periodic(const Duration(seconds: 60), (timer) {
       DateTime now = DateTime.now();
       if (!isSameDay(data.currentDay, now)) {
         data.updateStreak();
-        db.updateStreak(data);
       }
     }
     );

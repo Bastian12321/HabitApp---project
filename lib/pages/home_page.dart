@@ -73,8 +73,6 @@ class _MyWidgetState extends State<HomePage> {
 
   Widget _buildHabitSection(String title, List<Habit> habits, bool showCheckbox) {
     final data = Provider.of<HabitUI>(context);
-    AppUser user = Provider.of<AppUser>(context, listen: false);
-    Database db = Database(uid: user.uid);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -108,8 +106,7 @@ class _MyWidgetState extends State<HomePage> {
                     } else {
                       habit.complete();
                     }
-                    db.updateHabits(data);
-                    Provider.of<HabitUI>(context, listen: false).updateHabit(habit);
+                    data.updateHabit(habit);
                   });
                 },
                 title: Text(
