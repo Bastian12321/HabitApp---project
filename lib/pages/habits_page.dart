@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import this for FilteringTextInputFormatter
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
+import 'package:provider/provider.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/custom_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/journal_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/run_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/steps_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/water_habit_dialog.dart';
 class HabitsPage extends StatefulWidget {
-  final HabitUI data;
+  HabitUI data;
   HabitsPage({super.key, required this.data});
 
   @override
@@ -16,7 +17,7 @@ class HabitsPage extends StatefulWidget {
 }
 
 class _HabitsPageState extends State<HabitsPage> {
-  late final ValueNotifier<List<Habit>> _selectedHabits;
+    late final ValueNotifier<List<Habit>> _selectedHabits;
   TextEditingController _habitController = TextEditingController();
   TextEditingController _habitNameController = TextEditingController();
   TextEditingController _integerController = TextEditingController();
@@ -82,13 +83,13 @@ class _HabitsPageState extends State<HabitsPage> {
     _habitController.dispose();
     _habitNameController.dispose();
     _integerController.dispose();
-    _selectedHabits.dispose();
     _goalAmountController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<HabitUI>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(

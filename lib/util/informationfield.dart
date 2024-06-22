@@ -15,7 +15,7 @@ class Informationfield extends StatelessWidget {
     this.isPassword = false,
     this.validator,
   });
-  
+   
   @override
   TextFormField build(BuildContext context) {
     return TextFormField(

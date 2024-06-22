@@ -43,7 +43,7 @@ class _JournalPageState extends State <JournalPage> {
                 TextField(
                   controller: _journalController,
                   maxLines: 10,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Your journal entry',
                   ),

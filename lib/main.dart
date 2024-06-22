@@ -1,17 +1,15 @@
-import 'dart:async';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:habitapp/pages/journal_page.dart';
+import 'package:habitapp/models/appUser.dart';
+import 'package:habitapp/pages/profile_page.dart';
+import 'package:habitapp/pages/wrappers/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'services/auth.dart';
-import 'models/appUser.dart';
-import 'pages/wrappers/wrapper.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
-import 'pages/friends_page.dart';
 import 'package:habitapp/main_screen.dart';
 import 'package:habitapp/util/habitinterface.dart';
 
@@ -20,12 +18,16 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => HabitUI(),
+      child: MyApp(),
+    ),
+    );
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final HabitUI habitUI = HabitUI();
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,8 @@ class MyApp extends StatelessWidget {
       value: Auth().appUser,
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Color(0xFF1D716F),
-          scaffoldBackgroundColor: Color(0xFFAAAAAA),
+          primaryColor: const Color(0xFF1D716F),
+          scaffoldBackgroundColor: const Color(0xFFAAAAAA),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF0D494E),
             titleTextStyle: TextStyle(
@@ -54,11 +56,11 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const Wrapper(),
           '/main': (context) => const MainScreen(),
-          '/home': (context) => HomePage(data: habitUI),
-          '/calendar': (context) => CalendarPage(data: habitUI),
-          '/habits': (context) => HabitsPage(data: habitUI),
+          '/home': (context) => HomePage(),
+          '/calendar': (context) => CalendarPage(),
+          '/habits': (context) => HabitsPage(),
           '/journal': (context) => const JournalPage(),
-          '/friends': (context) => const FriendsPage(),
+            '/friends': (context) => const ProfilePage(),
         },
         debugShowCheckedModeBanner: false,
       ),
