@@ -106,11 +106,14 @@ class HabitUI extends ChangeNotifier{
           habitList.map((habit) => habit.toMap()).toList();
       toBeStored[day.toIso8601String()] = convertedHabits;
     });
-    return {'habitlist': toBeStored};
+    return {'habitlist': toBeStored, 'currentday': _currentDay.toIso8601String(), 'topstreak':streak, 'currentstreak':currentstreak};
   }
 
   static HabitUI fromMap(Map<String, dynamic> map) {
   HabitUI habitUI = HabitUI();
+  habitUI.currentDay = DateTime.parse(map['currentday']);
+  habitUI.streak = map['topstreak'];
+  habitUI.currentstreak = map['currentstreak'];
   if (map['habitlist'] != null) {
     Map<String, dynamic> habitsMap = map['habitlist'];
     habitsMap.forEach((dayString, habitList) {
@@ -143,7 +146,6 @@ class HabitUI extends ChangeNotifier{
       }
     }
     _currentDay = DateTime.now();
-    db!.updateStreak(this);
     db!.updateHabits(this);
     notifyListeners();
   }
@@ -152,6 +154,8 @@ class HabitUI extends ChangeNotifier{
     _currentDay = other._currentDay;
     _focusedDay = other._focusedDay;
     _selectedDay = other._selectedDay;
+    streak = other.streak;
+    currentstreak = other.currentstreak;
 
     habits.clear();
     other.habits.forEach((day, habitList) {

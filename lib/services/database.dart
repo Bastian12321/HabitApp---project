@@ -51,17 +51,6 @@ class Database {
     try {
       await userData.doc(uid).update({
         'habitdata': habitUI.toMap(),
-        'currentDay': habitUI.currentDay.toIso8601String(),
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-  Future<void> updateStreak(HabitUI habitUI) async {
-    try {
-      await userData.doc(uid).update({
-        'currentstreak':habitUI.currentstreak,
-        'topstreak': habitUI.streak,
       });
     } catch (e) {
       print(e.toString());
@@ -80,23 +69,6 @@ class Database {
     } catch (e) {
       print('Error fetching habits: ${e.toString()}');
       return {};
-    }
-  }
-
-
-  Future<void> addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) async {
-    try {
-      DocumentSnapshot doc = await userData.doc(uid).get();
-      HabitUI habitUI;
-      if (doc.exists) {
-        habitUI = HabitUI.fromMap(doc.data() as Map<String, dynamic>);
-      } else {
-        habitUI = HabitUI();
-      }
-      habitUI.addHabit(day, title, goalamount: goalamount, goalduration: goalduration);
-      await updateHabits(habitUI);
-    } catch (e) {
-      print(e.toString());
     }
   }
 }
