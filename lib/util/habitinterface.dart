@@ -144,6 +144,7 @@ class HabitUI extends ChangeNotifier{
     }
     _currentDay = DateTime.now();
     db!.updateStreak(this);
+    db!.updateHabits(this);
     notifyListeners();
   }
 
