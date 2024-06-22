@@ -4,7 +4,6 @@ import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:habitapp/util/habit.dart';
 
 
 class HabitUI extends ChangeNotifier{

@@ -1,7 +1,5 @@
-import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:provider/provider.dart';

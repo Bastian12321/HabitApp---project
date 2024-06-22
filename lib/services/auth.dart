@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/database.dart';
-
 import 'package:habitapp/util/habitinterface.dart';
 
 class Auth {
