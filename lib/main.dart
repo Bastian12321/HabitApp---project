@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           '/main': (context) => const MainScreen(),
           '/home': (context) => HomePage(),
           '/calendar': (context) => CalendarPage(),
-          '/habits': (context) => HabitsPage(),
+          '/habits': (context) => HabitsPage(data: HabitUI(),),
           '/journal': (context) => const JournalPage(),
             '/friends': (context) => const ProfilePage(),
         },
