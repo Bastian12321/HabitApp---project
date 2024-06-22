@@ -9,6 +9,8 @@ class HabitUI extends ChangeNotifier{
   DateTime _currentDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
+  int streak = 0;
+  int currentstreak = 0;
 
   DateTime get focusedDay => _focusedDay;
   DateTime get currentDay => _currentDay;
@@ -110,8 +112,23 @@ class HabitUI extends ChangeNotifier{
       }
     });
   }
-  return habitUI;
-}
+    return habitUI;
+  }
+
+  void updateStreak() {
+    if(!isSameDay(currentDay, DateTime.now())) {
+      if(areAllHabitsComplete(_currentDay)) {
+        currentstreak++;
+        if (currentstreak > streak) {
+          streak = currentstreak;
+        }
+      } else {
+        currentstreak = 0;
+      }
+    }
+    _currentDay = DateTime.now();
+    notifyListeners();
+  }
 
   void updateFrom(HabitUI other) {
     _currentDay = other._currentDay;

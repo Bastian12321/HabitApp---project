@@ -57,10 +57,20 @@ class Database {
       print(e.toString());
     }
   }
+  Future<void> updateStreak(HabitUI habitUI) async {
+    try {
+      await userData.doc(uid).update({
+        'currentstreak':habitUI.currentstreak,
+        'topstreak': habitUI.streak,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future<Map<String, dynamic>> getHabits() async {
     try {
-      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('collection').doc(uid).get();
+      DocumentSnapshot doc = await userData.doc(uid).get();
       if (doc.exists) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return data;
@@ -70,6 +80,18 @@ class Database {
     } catch (e) {
       print('Error fetching habits: ${e.toString()}');
       return {};
+    }
+  }
+
+  Future<void> getStreak(HabitUI data) async {
+    try {
+      DocumentSnapshot doc = await userData.doc(uid).get();
+      if (doc.exists) {
+        data.currentstreak = doc['currentstreak'];
+        data.currentstreak = doc['streak'];
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
