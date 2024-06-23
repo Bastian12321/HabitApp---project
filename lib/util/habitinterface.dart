@@ -170,6 +170,7 @@ class HabitUI extends ChangeNotifier{
     _selectedDay = other._selectedDay;
     streak = other.streak;
     currentstreak = other.currentstreak;
+    currentstepforDay = other.currentstepforDay;
 
     habits.clear();
     other.habits.forEach((day, habitList) {
