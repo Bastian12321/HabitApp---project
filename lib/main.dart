@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           '/calendar': (context) => CalendarPage(),
           '/habits': (context) => HabitsPage(),
           '/journal': (context) => const JournalPage(),
-          '/friends': (context) => AudioPage(),
+          '/friends': (context) => Audio(),
         },
         debugShowCheckedModeBanner: false,
       ),

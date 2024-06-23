@@ -32,8 +32,7 @@ class _MainScreenState extends State<MainScreen> {
       CalendarPage(),
       HabitsPage(),
       const JournalPage(),
-      //const ProfilePage(),
-      AudioPage(),
+      const ProfilePage(),
     ];
     final data = Provider.of<HabitUI>(context, listen: false);
     Timer.periodic(const Duration(seconds: 60), (timer) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/auth.dart';
 import 'package:habitapp/services/database.dart';
-import 'package:habitapp/util/audio_recorder.dart';
+import 'package:habitapp/util/audio.dart';
 import 'package:habitapp/util/new_username.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:habitapp/pages/home_page.dart';
@@ -19,8 +19,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  //int habitsCompleted = 0;
-  //int totalNoOfHabits = 10;
   File? _image;
   String email = 'Loading email...';
   String username = 'Loading username...';
@@ -144,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            const Divider(height: 60),
+            const Divider(height: 50),
             const Text(
               'NAME',
               style: TextStyle(
@@ -154,16 +152,22 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  username,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 2.0,
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    username,
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 2.0,
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
+                const SizedBox(width: 10,),
                 IconButton(
                   onPressed: () {
                     changeName(context);
@@ -176,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 )
               ],
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             const Text(
               'EMAIL',
               style: TextStyle(
@@ -203,7 +207,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(height: 20,),
+            Audio(),
           ],
         ),
       ),
