@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import this for FilteringTextInputFormatter
 import 'package:habitapp/util/habitinterface.dart';
+import 'package:habitapp/util/habit.dart';
 import 'package:provider/provider.dart';
-
+import 'package:habitapp/pages/habitPageDialog.dart/custom_habit_dialog.dart';
+import 'package:habitapp/pages/habitPageDialog.dart/journal_habit_dialog.dart';
+import 'package:habitapp/pages/habitPageDialog.dart/run_habit_dialog.dart';
+import 'package:habitapp/pages/habitPageDialog.dart/steps_habit_dialog.dart';
+import 'package:habitapp/pages/habitPageDialog.dart/water_habit_dialog.dart';
 class HabitsPage extends StatefulWidget {
   HabitsPage({super.key});
 
@@ -11,15 +17,70 @@ class HabitsPage extends StatefulWidget {
 
 class _HabitsPageState extends State<HabitsPage> {
   TextEditingController _habitController = TextEditingController();
+  TextEditingController _habitNameController = TextEditingController();
+  TextEditingController _integerController = TextEditingController();
+  TextEditingController _goalAmountController = TextEditingController();
+  String habitName = '';
+  String frequency = 'every day';
+  int water = 100;
+  bool _showGoalAmountField = false; // Boolean state variable to track visibility
+  final List<String> predefinedHabits = ['Run', 'Steps', 'Drink Water', 'Journal'];
+  final List<String> frequencyOptions = [
+    'every day',
+    'every other day',
+    'every 3 days',
+    'every 4 days',
+    'every 5 days',
+    'every 6 days',
+    'every 7 days'
+  ];
+  final List<int> waterOptions = [
+    100,
+    125,
+    150,
+    175,
+    200,
+    225,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500
+  ];
+
+  int frequencyToInt(String frequency) {
+    switch (frequency) {
+      case 'every day':
+        return 1;
+      case 'every other day':
+        return 2;
+      case 'every 3 days':
+        return 3;
+      case 'every 4 days':
+        return 4;
+      case 'every 5 days':
+        return 5;
+      case 'every 6 days':
+        return 6;
+      case 'every 7 days':
+        return 7;
+      default:
+        return 1; // Default to 'every day' if the input is not recognized
+    }
+  }
 
   @override
   void dispose() {
     _habitController.dispose();
+    _habitNameController.dispose();
+    _integerController.dispose();
+    _goalAmountController.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
+ build(BuildContext context) {
     final data = Provider.of<HabitUI>(context);
     return Scaffold(
       appBar: AppBar(
@@ -33,45 +94,47 @@ class _HabitsPageState extends State<HabitsPage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            controller: _habitController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Enter text',
-            ),
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Add individual onPressed functions to each habit button
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () => showRunHabitDialog(context, data, _habitNameController, _integerController, frequencyOptions, frequencyToInt),
+                  child: Text(predefinedHabits[0]),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () => showStepsHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, frequencyOptions, frequencyToInt),
+                  child: Text(predefinedHabits[1]),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () => showDrinkWaterHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, water, waterOptions, frequencyOptions, frequencyToInt),
+                  child: Text(predefinedHabits[2]),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: () => showJournalHabitDialog(context, data, _habitNameController, _integerController, frequencyOptions, frequencyToInt),
+                  child: Text(predefinedHabits[3]),
+                ),
+              ),
+              SizedBox(height: 20), // Space between predefined and custom habit button
+              ElevatedButton(
+                onPressed: () => showCustomHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, _showGoalAmountField, frequencyOptions, frequencyToInt),
+                child: Text("Custom Habit"),
+              ),
+            ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                scrollable: true,
-                title: Text("Habit Name"),
-                content: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    controller: _habitController,
-                  ),
-                ),
-                actions: [
-                  ElevatedButton(
-                    onPressed: () {
-                      data.addHabit(data.selectedDay!, _habitController.text);
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Submit"),
-                  )
-                ],
-              );
-            },
-          );
-        },
-        backgroundColor: Colors.amber,
-        child: const Icon(Icons.add),
       ),
     );
   }

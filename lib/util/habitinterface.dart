@@ -163,4 +163,12 @@ class HabitUI extends ChangeNotifier{
     });
     notifyListeners();
   }
+
+  void habitRep(int totalReps, int day, String title, {int? goalamount, double? goalduration}) {
+    DateTime now = DateTime.now();
+    for(var i = 1; i <= totalReps; i++) {
+      addHabit(now, title);
+      now = now.add(Duration(days: day));
+    }
+  }
 }

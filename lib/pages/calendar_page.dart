@@ -94,7 +94,7 @@ class _CalendarPageState extends State<CalendarPage> {
       builder: (context, habitUI, child) => TableCalendar(
         firstDay: DateTime.utc(2024, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
-        focusedDay: DateTime.utc(2024, 6, 25),
+        focusedDay: habitUI.focusedDay,
         calendarFormat: _calendarFormat,
         eventLoader: habitUI.getHabitsForDay,
         selectedDayPredicate: (day) {
