@@ -16,10 +16,6 @@ void showJournalHabitDialog(BuildContext context, HabitUI data, TextEditingContr
           padding: EdgeInsets.all(8),
           child: Column(
             children: [
-              TextField(
-                controller: habitNameController,
-                decoration: InputDecoration(labelText: 'Habit Name'),
-              ),
               DropdownButtonFormField<String>(
                 value: frequency,
                 onChanged: (String? newValue) {
@@ -45,7 +41,7 @@ void showJournalHabitDialog(BuildContext context, HabitUI data, TextEditingContr
         actions: [
           ElevatedButton(
             onPressed: () {
-              String habitName = habitNameController.text;
+              String habitName = 'Journaling';
               int integerValue = int.tryParse(integerController.text) ?? 0;
               int day = frequencyToInt(frequency);
 

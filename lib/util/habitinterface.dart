@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:habitapp/models/appUser.dart';
@@ -85,13 +84,13 @@ class HabitUI extends ChangeNotifier {
   }
 
   void addHabit(DateTime day, String title, {int? goalamount}) {
-  if (habits[day] != null) {
-    habits[day]!.add(Habit(title, goalamount: goalamount));
-  } else {
-    habits[day] = [Habit(title, goalamount: goalamount)];
-  }
-  db!.updateHabits(this);
-  notifyListeners();
+    if (habits[day] != null) {
+      habits[day]!.add(Habit(title, goalamount: goalamount));
+    } else {
+      habits[day] = [Habit(title, goalamount: goalamount)];
+    }
+    db!.updateHabits(this);
+    notifyListeners();
   }
 
   void updateHabit(Habit habit) {
@@ -165,10 +164,21 @@ class HabitUI extends ChangeNotifier {
   }
 
   void habitRep(int totalReps, int day, String title, {int? goalamount}) {
-  DateTime now = DateTime.now();
-    for (var i = 1; i <= totalReps; i++) {
+    DateTime now = DateTime.now();
+    for (var I = 1; I <= totalReps; I++) {
       addHabit(now, title, goalamount: goalamount);
       now = now.add(Duration(days: day));
     }
+  }
+
+  void deleteAllFutureHabits(Habit habit) {
+    DateTime now = DateTime.now();
+    habits.forEach((day, habitList) {
+      if (day.isAfter(now)) {
+        habitList.removeWhere((h) => h.title == habit.title);
+      }
+    });
+    db!.updateHabits(this);
+    notifyListeners();
   }
 }

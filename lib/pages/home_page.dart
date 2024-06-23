@@ -3,7 +3,7 @@ import 'package:habitapp/services/auth.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:provider/provider.dart';
-import 'package:habitapp/util/step_counter.dart';  // Import the step counter
+import 'package:habitapp/util/step_counter.dart'; 
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -119,43 +119,54 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                trailing: habit.goalamount != null && habit.goalamount! > 0
-                    ? isStepsHabit
-                        ? Text(
-                            '${habit.amount}/${habit.goalamount}',
-                            style: TextStyle(color: textColor),
-                          )
-                        : Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.remove, color: textColor),
-                                onPressed: () {
-                                  setState(() {
-                                    habit.decreaseAmount();
-                                    data.updateHabit(habit);
-                                  });
-                                },
-                              ),
-                              Text(
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    habit.goalamount != null && habit.goalamount! > 0
+                        ? isStepsHabit
+                            ? Text(
                                 '${habit.amount}/${habit.goalamount}',
                                 style: TextStyle(color: textColor),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.add, color: textColor),
-                                onPressed: () {
-                                  setState(() {
-                                    habit.increaseAmount();
-                                    data.updateHabit(habit);
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                    : Icon(
-                        habit.done ? Icons.check_box : Icons.check_box_outline_blank,
-                        color: Colors.black,
-                      ),
+                              )
+                            : Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.remove, color: textColor),
+                                    onPressed: () {
+                                      setState(() {
+                                        habit.decreaseAmount();
+                                        data.updateHabit(habit);
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    '${habit.amount}/${habit.goalamount}',
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.add, color: textColor),
+                                    onPressed: () {
+                                      setState(() {
+                                        habit.increaseAmount();
+                                        data.updateHabit(habit);
+                                      });
+                                    },
+                                  ),
+                                ],
+                              )
+                        : Icon(
+                            habit.done ? Icons.check_box : Icons.check_box_outline_blank,
+                            color: Colors.black,
+                          ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        _showDeleteOptionsDialog(context, habit, data, data.currentDay);
+                      },
+                    ),
+                  ],
+                ),
                 onTap: habit.goalamount == null || habit.goalamount == 0
                     ? () {
                         setState(() {
@@ -173,6 +184,73 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ],
+    );
+  }
+
+  void _showDeleteOptionsDialog(BuildContext context, Habit habit, HabitUI data, DateTime day) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Habit'),
+          content: Text('Do you want to delete this habit for today or all instances in the future?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete Today'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _confirmDelete(context, habit, data, day, false);
+              },
+            ),
+            TextButton(
+              child: Text('Delete All Future Habits'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _confirmDelete(context, habit, data, day, true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _confirmDelete(BuildContext context, Habit habit, HabitUI data, DateTime day, bool deleteAllFuture) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content: Text('Are you sure you want to delete "${habit.title}"?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  if (deleteAllFuture) {
+                    data.deleteAllFutureHabits(habit);
+                  } else {
+                    data.removeHabit(day, habit);
+                  }
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
