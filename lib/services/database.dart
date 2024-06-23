@@ -8,11 +8,10 @@ class Database {
 
   final CollectionReference userData = FirebaseFirestore.instance.collection('collection');
 
-  Future updateUserData(String username, String? profilePictureURL) async {
+  Future updateUserData(String username) async {
     HabitUI habitUI = HabitUI();
     return await userData.doc(uid).set({
       'username' : username,
-      'profilePicture' : profilePictureURL,
       'habitdata' : habitUI.toMap(),
     });
   }
