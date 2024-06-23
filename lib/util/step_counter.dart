@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';  // Import this to use StreamSubscription
+import 'dart:async';  
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
 
