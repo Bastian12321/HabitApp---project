@@ -174,7 +174,7 @@ class HabitUI extends ChangeNotifier {
   void deleteAllFutureHabits(Habit habit) {
     DateTime now = DateTime.now();
     habits.forEach((day, habitList) {
-      if (day.isAfter(now)) {
+      if (!isSameDay(day, now) && day.isAfter(now)) {
         habitList.removeWhere((h) => h.title == habit.title);
       }
     });
