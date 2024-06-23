@@ -6,6 +6,7 @@ import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/new_username.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:habitapp/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
