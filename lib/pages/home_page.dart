@@ -1,5 +1,5 @@
-import 'package:habitapp/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:habitapp/services/auth.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:provider/provider.dart';
@@ -8,13 +8,13 @@ class HomePage extends StatefulWidget {
   HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _MyWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyWidgetState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   final Auth _auth = Auth();
 
-@override
+  @override
   Widget build(BuildContext context) {
     final data = Provider.of<HabitUI>(context);
     final habits = data.getHabitsForDay(data.currentDay);
@@ -31,9 +31,8 @@ class _MyWidgetState extends State<HomePage> {
         actions: <Widget>[
           TextButton.icon(
             icon: Icon(Icons.person),
-            label: Text('logout'),
+            label: Text('Logout'),
             onPressed: () async {
-              print('hey');
               await _auth.signOut();
             },
           ),
@@ -44,7 +43,7 @@ class _MyWidgetState extends State<HomePage> {
           Container(
             alignment: Alignment.topCenter,
             padding: EdgeInsets.symmetric(vertical: 20),
-            color: const Color.fromARGB(255, 210, 142, 134),
+            color: const Color(0xFFD28E86),
             child: const Text(
               'Habits for today',
               style: TextStyle(
@@ -58,8 +57,8 @@ class _MyWidgetState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildHabitSection("Not Completed Habits", habits.where((habit) => !habit.done).toList(), false),
-                  _buildHabitSection("Completed Habits", habits.where((habit) => habit.done).toList(), true),
+                  _buildHabitSection("Not Completed Habits", habits.where((habit) => !habit.done).toList()),
+                  _buildHabitSection("Completed Habits", habits.where((habit) => habit.done).toList()),
                 ],
               ),
             ),
@@ -69,17 +68,17 @@ class _MyWidgetState extends State<HomePage> {
     );
   }
 
-  Widget _buildHabitSection(String title, List<Habit> habits, bool showCheckbox) {
+  Widget _buildHabitSection(String title, List<Habit> habits) {
     final data = Provider.of<HabitUI>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
             title,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -90,34 +89,82 @@ class _MyWidgetState extends State<HomePage> {
           itemCount: habits.length,
           itemBuilder: (context, index) {
             final habit = habits[index];
+            final backgroundColor = habit.done ? Colors.green.shade100 : Colors.white;
+            final textColor = habit.done ? Colors.green.shade900 : Colors.black87;
+            final isStepsHabit = habit.title.toLowerCase().contains('steps');
+
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                border: Border.all(),
+                color: backgroundColor,
+                border: Border.all(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
               ),
               child: ListTile(
-                onTap: () {
-                  setState(() {
-                    if (habit.done) {
-                      habit.incomplete();
-                    } else {
-                      habit.complete();
-                    }
-                    data.updateHabit(habit);
-                  });
-                },
                 title: Text(
                   habit.toString(),
                   style: TextStyle(
+                    color: textColor,
                     decoration: habit.done ? TextDecoration.lineThrough : TextDecoration.none,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                trailing: showCheckbox
-                    ? Icon(
+                trailing: habit.goalamount != null && habit.goalamount! > 0
+                    ? isStepsHabit // Check if the habit is a steps habit
+                        ? Text(
+                            '${habit.amount}/${habit.goalamount}',
+                            style: TextStyle(color: textColor),
+                          )
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.remove, color: textColor),
+                                onPressed: () {
+                                  setState(() {
+                                    habit.decreaseAmount();
+                                    data.updateHabit(habit);
+                                  });
+                                },
+                              ),
+                              Text(
+                                '${habit.amount}/${habit.goalamount}',
+                                style: TextStyle(color: textColor),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.add, color: textColor),
+                                onPressed: () {
+                                  setState(() {
+                                    habit.increaseAmount();
+                                    data.updateHabit(habit);
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                    : Icon(
                         habit.done ? Icons.check_box : Icons.check_box_outline_blank,
-                        color: habit.done ? Colors.green : null,
-                      )
+                        color: Colors.black,
+                      ),
+                onTap: habit.goalamount == null || habit.goalamount == 0
+                    ? () {
+                        setState(() {
+                          if (habit.done) {
+                            habit.incomplete();
+                          } else {
+                            habit.complete();
+                          }
+                          data.updateHabit(habit);
+                        });
+                      }
                     : null,
               ),
             );

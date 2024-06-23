@@ -18,11 +18,12 @@ class Habit {
 
   void increaseAmount() {
     _amount++;
-    if (_amount == goalamount!) {
+    if (_amount == goalamount) {
       complete();
     }
   }
-   void decreaseAmount() {
+
+  void decreaseAmount() {
     if (_amount > 0) {
       _amount--;
     }
@@ -51,7 +52,7 @@ class Habit {
     .._done = map['done'] ?? false;
   }
   
-   Habit clone() {
+  Habit clone() {
     return Habit(
       title,
       goalamount: goalamount,

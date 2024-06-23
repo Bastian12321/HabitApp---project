@@ -1,3 +1,4 @@
+
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:habitapp/models/appUser.dart';
@@ -5,8 +6,7 @@ import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
-class HabitUI extends ChangeNotifier{
+class HabitUI extends ChangeNotifier {
   AppUser? _user;
   Database? db;
   DateTime _currentDay = DateTime.now();
@@ -18,7 +18,7 @@ class HabitUI extends ChangeNotifier{
   DateTime get focusedDay => _focusedDay;
   DateTime get currentDay => _currentDay;
   DateTime? get selectedDay => _selectedDay;
-  
+
   final LinkedHashMap<DateTime, List<Habit>> habits = LinkedHashMap<DateTime, List<Habit>>(
     equals: isSameDay,
     hashCode: (DateTime key) => key.day * 1000000 + key.month * 10000 + key.year,
@@ -35,7 +35,7 @@ class HabitUI extends ChangeNotifier{
   }
 
   set currentDay(DateTime day) {
-    _currentDay= day;
+    _currentDay = day;
     notifyListeners();
   }
 
@@ -49,7 +49,7 @@ class HabitUI extends ChangeNotifier{
   }
 
   bool areAllHabitsComplete(DateTime day) {
-    if(day.isAfter(DateTime.now())) {
+    if (day.isAfter(DateTime.now())) {
       return false;
     }
     final dayHabits = getHabitsForDay(day);
@@ -58,7 +58,7 @@ class HabitUI extends ChangeNotifier{
   }
 
   bool areAnyHabitsIncomplete(DateTime day) {
-    if(day.isAfter(DateTime.now())) {
+    if (day.isAfter(DateTime.now())) {
       return false;
     }
     final dayHabits = getHabitsForDay(day);
@@ -72,7 +72,7 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-   void decreaseAmount(Habit habit) {
+  void decreaseAmount(Habit habit) {
     habit.decreaseAmount();
     db!.updateHabits(this);
     notifyListeners();
@@ -84,14 +84,14 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) {
-    if (habits[day] != null) {
-      habits[day]!.add(Habit(title, goalamount: goalamount));
-    } else {
-      habits[day] = [Habit(title, goalamount: goalamount)];
-    }
-    db!.updateHabits(this);
-    notifyListeners();
+  void addHabit(DateTime day, String title, {int? goalamount}) {
+  if (habits[day] != null) {
+    habits[day]!.add(Habit(title, goalamount: goalamount));
+  } else {
+    habits[day] = [Habit(title, goalamount: goalamount)];
+  }
+  db!.updateHabits(this);
+  notifyListeners();
   }
 
   void updateHabit(Habit habit) {
@@ -106,39 +106,39 @@ class HabitUI extends ChangeNotifier{
           habitList.map((habit) => habit.toMap()).toList();
       toBeStored[day.toIso8601String()] = convertedHabits;
     });
-    return {'habitlist': toBeStored, 'currentday': _currentDay.toIso8601String(), 'topstreak':streak, 'currentstreak':currentstreak};
+    return {'habitlist': toBeStored, 'currentday': _currentDay.toIso8601String(), 'topstreak': streak, 'currentstreak': currentstreak};
   }
 
   static HabitUI fromMap(Map<String, dynamic> map) {
-  HabitUI habitUI = HabitUI();
-  habitUI.currentDay = DateTime.parse(map['currentday']);
-  habitUI.streak = map['topstreak'];
-  habitUI.currentstreak = map['currentstreak'];
-  if (map['habitlist'] != null) {
-    Map<String, dynamic> habitsMap = map['habitlist'];
-    habitsMap.forEach((dayString, habitList) {
-      try {
-        DateTime day = DateTime.parse(dayString);
-        List<Habit> habits =
-            (habitList as List<dynamic>).map((habitData) => Habit.fromMap(habitData)).toList();
-        habitUI.habits[day] = habits;
-      } catch (e) {
-        print('Error parsing habits for $dayString: $e');
-      }
-    });
-  }
+    HabitUI habitUI = HabitUI();
+    habitUI.currentDay = DateTime.parse(map['currentday']);
+    habitUI.streak = map['topstreak'];
+    habitUI.currentstreak = map['currentstreak'];
+    if (map['habitlist'] != null) {
+      Map<String, dynamic> habitsMap = map['habitlist'];
+      habitsMap.forEach((dayString, habitList) {
+        try {
+          DateTime day = DateTime.parse(dayString);
+          List<Habit> habits =
+              (habitList as List<dynamic>).map((habitData) => Habit.fromMap(habitData)).toList();
+          habitUI.habits[day] = habits;
+        } catch (e) {
+          print('Error parsing habits for $dayString: $e');
+        }
+      });
+    }
     return habitUI;
   }
 
   void updateStreak() {
     DateTime check = _currentDay;
-    if(!isSameDay(check, DateTime.now())) {
-      if(areAllHabitsComplete(check)) {
+    if (!isSameDay(check, DateTime.now())) {
+      if (areAllHabitsComplete(check)) {
         currentstreak++;
         if (currentstreak > streak) {
           streak = currentstreak;
         }
-        if(!isSameDay(check.add(const Duration(days: 1)), DateTime.now())) {
+        if (!isSameDay(check.add(const Duration(days: 1)), DateTime.now())) {
           currentstreak = 0;
         }
       } else {
@@ -164,10 +164,10 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void habitRep(int totalReps, int day, String title, {int? goalamount, double? goalduration}) {
-    DateTime now = DateTime.now();
-    for(var i = 1; i <= totalReps; i++) {
-      addHabit(now, title);
+  void habitRep(int totalReps, int day, String title, {int? goalamount}) {
+  DateTime now = DateTime.now();
+    for (var i = 1; i <= totalReps; i++) {
+      addHabit(now, title, goalamount: goalamount);
       now = now.add(Duration(days: day));
     }
   }
