@@ -90,7 +90,7 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addHabit(DateTime day, String title, {int? goalamount, bool? stepcounter}) {
+  void addHabit(DateTime day, String title, {int goalamount = 0, bool? stepcounter}) {
     if (habits[day] != null) {
       habits[day]!.add(Habit(title, goalamount: goalamount, stephabit: stepcounter));
     } else {
@@ -178,7 +178,7 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void habitRep(int totalReps, int day, String title, {int? goalamount}) {
+  void habitRep(int totalReps, int day, String title, {int goalamount = 0}) {
     DateTime now = DateTime.now();
     for(var i = 1; i <= totalReps; i++) {
       addHabit(now, title, goalamount: goalamount);
@@ -186,7 +186,7 @@ class HabitUI extends ChangeNotifier{
     }
   }
 
-  void stepcounter(int totalReps, int day, String title, {int? goalamount}) {
+  void stepcounter(int totalReps, int day, String title, {int goalamount = 0}) {
     DateTime now = DateTime.now();
     for(var i = 1; i <= totalReps; i++) {
       addHabit(now, title, goalamount: goalamount, stepcounter: true);

@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           '/calendar': (context) => CalendarPage(),
           '/habits': (context) => HabitsPage(),
           '/journal': (context) => const JournalPage(),
-            '/friends': (context) => const ProfilePage(),
+          '/profile': (context) => const ProfilePage(),
         },
         debugShowCheckedModeBanner: false,
       ),

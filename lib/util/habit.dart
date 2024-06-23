@@ -1,17 +1,17 @@
 class Habit {
   final String title;
-  final int? goalamount;
+  int goalamount = 0;
   int _amount = 0;
   bool _done = false;
   final bool? stephabit;
 
-  Habit(this.title, {this.goalamount, this.stephabit = false});
+  Habit(this.title, {this.goalamount = 0, this.stephabit = false});
 
   bool get done => _done;
 
   void steps(int steps) {
     _amount = steps;
-    if(_amount == goalamount!) {
+    if(_amount == goalamount) {
       complete();
     }
   }
@@ -54,7 +54,7 @@ class Habit {
   static Habit fromMap(Map<String, dynamic> map) {
     return Habit(
       map['title'],
-      goalamount: map['goalamount'],
+      goalamount: map['goalamount'] ?? 0,
       stephabit: map['stephabit']
     )
     .._amount = map['amount'] ?? 0

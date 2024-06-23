@@ -84,7 +84,7 @@ void showCustomHabitDialog(BuildContext context, HabitUI data, TextEditingContro
                     return;
                   }
 
-                  data.habitRep(integerValue, day, habitName, goalamount: goalAmount);
+                  data.habitRep(integerValue, day, habitName, goalamount: goalAmount!);
 
                   habitNameController.clear();
                   integerController.clear();
