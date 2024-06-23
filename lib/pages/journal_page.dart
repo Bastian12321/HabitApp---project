@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitapp/util/audio.dart';
-import 'package:habitapp/util/habitinterface.dart';
-import 'package:provider/provider.dart';
+
 
 class JournalPage extends StatefulWidget {
   const JournalPage({super.key});
@@ -11,9 +10,6 @@ class JournalPage extends StatefulWidget {
 }
 
 class _JournalPageState extends State <JournalPage> {
-  final TextEditingController _journalController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

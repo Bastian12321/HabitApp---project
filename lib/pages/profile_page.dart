@@ -227,8 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: const TextStyle(fontSize: 13.0),
                   ),
                 ],
-                                ),
-              
+              ),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -250,10 +249,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(fontSize: 13.0),
                     ),
                   ],
-                ),
-                  
+                ), 
                 )
-                
               ],
             ),
           ],

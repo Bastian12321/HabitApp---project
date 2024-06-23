@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Import this for FilteringTextInputFormatter
 import 'package:habitapp/util/habitinterface.dart';
-import 'package:habitapp/util/habit.dart';
 import 'package:provider/provider.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/custom_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/journal_habit_dialog.dart';
@@ -23,7 +21,7 @@ class _HabitsPageState extends State<HabitsPage> {
   String habitName = '';
   String frequency = 'every day';
   int water = 100;
-  bool _showGoalAmountField = false; // Boolean state variable to track visibility
+  bool _showGoalAmountField = false;
   final List<String> predefinedHabits = ['Run', 'Steps', 'Drink Water', 'Journal'];
   final List<String> frequencyOptions = [
     'every day',
@@ -66,7 +64,7 @@ class _HabitsPageState extends State<HabitsPage> {
       case 'every 7 days':
         return 7;
       default:
-        return 1; // Default to 'every day' if the input is not recognized
+        return 1;
     }
   }
 
@@ -98,7 +96,6 @@ class _HabitsPageState extends State<HabitsPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Add individual onPressed functions to each habit button
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
@@ -127,7 +124,7 @@ class _HabitsPageState extends State<HabitsPage> {
                   child: Text(predefinedHabits[3]),
                 ),
               ),
-              SizedBox(height: 20), // Space between predefined and custom habit button
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () => showCustomHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, _showGoalAmountField, frequencyOptions, frequencyToInt),
                 child: Text("Custom Habit"),

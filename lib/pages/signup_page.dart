@@ -43,7 +43,6 @@ class _LoginPageState extends State<SignupPage> {
           height: 400,
           width: 300,
           child: Form(
-            
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +54,7 @@ class _LoginPageState extends State<SignupPage> {
                     ? 'Please enter an email' 
                     : null,
                 ),
-                const SizedBox(height: 20.0), //spacing
+                const SizedBox(height: 20.0),
                 Informationfield(
                   hint: 'create password', 
                   isPassword: true,
@@ -64,7 +63,7 @@ class _LoginPageState extends State<SignupPage> {
                     ? 'Password must be at least 6 characters' 
                     : null,
                 ),
-                const SizedBox(height: 20.0), //spacing
+                const SizedBox(height: 20.0),
                 Informationfield(
                   hint: 'confirm password', 
                   isPassword: true,
@@ -73,7 +72,7 @@ class _LoginPageState extends State<SignupPage> {
                     ? 'Passwords do not match' 
                     : null,
                 ),
-                const SizedBox(height: 20.0), //spacing
+                const SizedBox(height: 20.0),
                 SizedBox(
                   width: double.infinity,
                   height: 50,

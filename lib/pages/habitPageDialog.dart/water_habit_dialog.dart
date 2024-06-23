@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habitapp/util/habitinterface.dart';
-import 'package:habitapp/util/habit.dart';
 
 void showDrinkWaterHabitDialog(BuildContext context, HabitUI data, TextEditingController habitNameController, TextEditingController integerController, TextEditingController goalAmountController, int water, List<int> waterOptions, List<String> frequencyOptions, int Function(String) frequencyToInt) {
   String frequency = 'every day';
@@ -52,7 +51,6 @@ void showDrinkWaterHabitDialog(BuildContext context, HabitUI data, TextEditingCo
               int day = frequencyToInt(frequency);
               int? goalAmount = int.tryParse(goalAmountController.text);
 
-              // Validate integer value
               if (integerValue < 1 || integerValue > 365) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Please enter a value between 1 and 365')),

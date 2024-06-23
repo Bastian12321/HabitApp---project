@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   _buildHabitSection("Not Completed Habits", habits.where((habit) => !habit.done).toList()),
                   _buildHabitSection("Completed Habits", habits.where((habit) => habit.done).toList()),
-                  StepCounter(),  // Include the StepCounter widget
+                  StepCounter(),
                 ],
               ),
             ),
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
