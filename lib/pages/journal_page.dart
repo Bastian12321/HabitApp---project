@@ -16,7 +16,6 @@ class _JournalPageState extends State <JournalPage> {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<HabitUI>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
