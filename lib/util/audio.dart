@@ -33,6 +33,7 @@ class _AudioState extends State<Audio> {
       }
     });
 
+    // Adding listener to update _currentPosition
     _audioPlayer.positionStream.listen((position) {
       setState(() {
         _currentPosition = position.inMilliseconds.toDouble();
@@ -48,6 +49,7 @@ class _AudioState extends State<Audio> {
     });
   }
 
+  // Helper method to format duration as 'mm:ss,SS'
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
@@ -74,6 +76,7 @@ class _AudioState extends State<Audio> {
       _currentTimeString = _formatDuration(const Duration(milliseconds: 0));
     });
 
+    // Generate a unique file name using the current timestamp
     final directory = await getApplicationDocumentsDirectory();
     String fileName = 'recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
     _filePath = '${directory.path}/$fileName';
@@ -103,7 +106,7 @@ class _AudioState extends State<Audio> {
   }
 
   Future<void> _playRecording() async {
-
+    // Make sure file exists
     if (_filePath != null && File(_filePath!).existsSync()) {
       print('File exists, preparing to play');
       try {
@@ -170,7 +173,7 @@ class _AudioState extends State<Audio> {
                 ElevatedButton(
                   onPressed: _isRecording ? null : _startRecording,
                   style: ElevatedButton.styleFrom(
-                    shape: const LinearBorder(),
+                    shape: LinearBorder(),
                     elevation: 10,
                     backgroundColor: const Color(0xFF0D494E),
                     foregroundColor: Colors.white,
@@ -182,7 +185,7 @@ class _AudioState extends State<Audio> {
                 ElevatedButton(
                   onPressed: _isRecording ? _stopRecording : null,
                   style: ElevatedButton.styleFrom(
-                    shape: const LinearBorder(),
+                    shape: LinearBorder(),
                     elevation: 10,
                     backgroundColor: const Color(0xFF0D494E),
                     foregroundColor: Colors.white,
@@ -196,7 +199,7 @@ class _AudioState extends State<Audio> {
             ElevatedButton.icon(
               onPressed: !_isRecording ? (_isPlaying ? _pauseRecording : _playRecording) : null,
               style: ElevatedButton.styleFrom(
-                shape: const LinearBorder(),
+                shape: LinearBorder(),
                 shadowColor: Colors.green[900],
                 elevation: 10,
                 backgroundColor: const Color(0xFF0D494E),

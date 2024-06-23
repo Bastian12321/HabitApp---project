@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/auth.dart';
 import 'package:habitapp/services/database.dart';
-import 'package:habitapp/util/habitinterface.dart';
+import 'package:habitapp/util/audio.dart';
 import 'package:habitapp/util/new_username.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:habitapp/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -113,7 +114,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<HabitUI>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -208,51 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Top streak',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    '${data.streak}',
-                    style: const TextStyle(fontSize: 13.0),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Current streak:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      '${data.currentstreak}',
-                      style: const TextStyle(fontSize: 13.0),
-                    ),
-                  ],
-                ), 
-                )
-              ],
-            ),
+            Audio(),
           ],
         ),
       ),
