@@ -173,7 +173,7 @@ class _AudioState extends State<Audio> {
                 ElevatedButton(
                   onPressed: _isRecording ? null : _startRecording,
                   style: ElevatedButton.styleFrom(
-                    shape: LinearBorder(),
+                    shape: const LinearBorder(),
                     elevation: 10,
                     backgroundColor: const Color(0xFF0D494E),
                     foregroundColor: Colors.white,
@@ -185,7 +185,7 @@ class _AudioState extends State<Audio> {
                 ElevatedButton(
                   onPressed: _isRecording ? _stopRecording : null,
                   style: ElevatedButton.styleFrom(
-                    shape: LinearBorder(),
+                    shape: const LinearBorder(),
                     elevation: 10,
                     backgroundColor: const Color(0xFF0D494E),
                     foregroundColor: Colors.white,
@@ -199,7 +199,7 @@ class _AudioState extends State<Audio> {
             ElevatedButton.icon(
               onPressed: !_isRecording ? (_isPlaying ? _pauseRecording : _playRecording) : null,
               style: ElevatedButton.styleFrom(
-                shape: LinearBorder(),
+                shape: const LinearBorder(),
                 shadowColor: Colors.green[900],
                 elevation: 10,
                 backgroundColor: const Color(0xFF0D494E),
