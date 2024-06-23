@@ -73,4 +73,13 @@ class DefaultFirebaseOptions {
     storageBucket: 'habitapp2-c71a2.appspot.com',
     iosBundleId: 'com.example.habitapp',
   );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBxgNuMGAQKzUoUNh8MjZFC0E4QH46066E',
+    appId: '1:354860494305:android:dc7a283ffdc6a0902fb6a0',
+    messagingSenderId: '354860494305',
+    projectId: 'habitapp2-c71a2',
+    storageBucket: 'habitapp2-c71a2.appspot.com',
+    iosBundleId: 'com.example.habitapp',
+  );
 }
