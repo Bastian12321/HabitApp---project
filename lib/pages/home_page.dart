@@ -30,10 +30,10 @@ class _MyWidgetState extends State<HomePage> {
         ),
         actions: <Widget>[
           TextButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('logout'),
+            style: TextButton.styleFrom(foregroundColor: const Color(0xFF629183)),
+            icon: const Icon(Icons.person),
+            label: const Text('logout'),
             onPressed: () async {
-              print('hey');
               await _auth.signOut();
             },
           ),
