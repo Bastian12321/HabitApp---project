@@ -3,7 +3,7 @@ class Habit {
   int goalamount = 0;
   int _amount = 0;
   bool _done = false;
-  final bool? stephabit;
+  final bool stephabit;
 
   Habit(this.title, {this.goalamount = 0, this.stephabit = false});
 
@@ -26,7 +26,7 @@ class Habit {
 
   void increaseAmount() {
     _amount++;
-    if (_amount == goalamount!) {
+    if (_amount == goalamount) {
       complete();
     }
   }
