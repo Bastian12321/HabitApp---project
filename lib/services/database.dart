@@ -8,16 +8,15 @@ class Database {
 
   final CollectionReference userData = FirebaseFirestore.instance.collection('collection');
 
-  Future updateUserData(String username, String? profilePictureURL) async {
+  Future initiateUserData(String username) async {
     HabitUI habitUI = HabitUI();
     return await userData.doc(uid).set({
       'username' : username,
-      'profilePicture' : profilePictureURL,
       'habitdata' : habitUI.toMap(),
     });
   }
 
-  Future updateUserName(String username) async {
+  Future updateUsername(String username) async {
     await userData.doc(uid).update({
       'username' : username,
     });
@@ -37,7 +36,7 @@ class Database {
     }
   }
 
-  Future<bool> isUserNameAvailable(String username) async {
+  Future<bool> isUsernameAvailable(String username) async {
     try {
       dynamic result = await userData.where('username', isEqualTo: username).get();
       return result.docs.isEmpty;

@@ -84,10 +84,10 @@ class _NewNameFieldState extends State<NewNameField> {
                         if (user != null) {
                           toggleChecking();
                           Database db = Database(uid: user.uid);
-                          bool available = await db.isUserNameAvailable(username!);
+                          bool available = await db.isUsernameAvailable(username!);
                           if (available) {
                             toggleChecking();
-                            await db.updateUserName(username!);
+                            await db.updateUsername(username!);
                             widget.update(); 
                             if (mounted) {
                               Navigator.of(context).pop();

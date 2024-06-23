@@ -19,16 +19,6 @@ class Auth {
       .map(_appUserFromFirebaseUser);
   }
 
-  Future signInAnon() async {
-    try {
-      UserCredential cred = await _firebaseAuth.signInAnonymously();
-      User? user = cred.user;
-      return _appUserFromFirebaseUser(user);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
@@ -53,7 +43,7 @@ class Auth {
       if (user != null) {
         String uid = user.uid;
         String tempName = 'new_user-${uid.substring(uid.length - 8)}';
-        await Database(uid: uid).updateUserData(tempName, null);
+        await Database(uid: uid).initiateUserData(tempName);
       }
       return _appUserFromFirebaseUser(user);
     } catch (e) {
