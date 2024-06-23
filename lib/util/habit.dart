@@ -3,10 +3,18 @@ class Habit {
   final int? goalamount;
   int _amount = 0;
   bool _done = false;
+  final bool? stephabit;
 
-  Habit(this.title, {this.goalamount});
+  Habit(this.title, {this.goalamount, this.stephabit = false});
 
   bool get done => _done;
+
+  void steps(int steps) {
+    _amount = steps;
+    if(_amount == goalamount!) {
+      complete();
+    }
+  }
 
   void complete() {
     _done = true;
@@ -39,6 +47,7 @@ class Habit {
       'goalamount' : goalamount,
       'amount' : _amount,
       'done' : _done,
+      'stephabit' : stephabit,
     };
   }
 
@@ -46,6 +55,7 @@ class Habit {
     return Habit(
       map['title'],
       goalamount: map['goalamount'],
+      stephabit: map['stephabit']
     )
     .._amount = map['amount'] ?? 0
     .._done = map['done'] ?? false;
@@ -55,6 +65,7 @@ class Habit {
     return Habit(
       title,
       goalamount: goalamount,
+      stephabit: stephabit,
     )
     .._amount = _amount
     .._done = _done;

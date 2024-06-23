@@ -29,7 +29,6 @@ class _CalendarPageState extends State<CalendarPage> {
   }
   
   @override
-  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: Provider.of<HabitUI>(context),

@@ -4,16 +4,19 @@ import 'package:habitapp/models/appUser.dart';
 import 'package:habitapp/services/database.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:habitapp/util/pedometer.dart';
 
 
 class HabitUI extends ChangeNotifier{
   AppUser? _user;
   Database? db;
+  Pedometer? steps;
   DateTime _currentDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
   int streak = 0;
   int currentstreak = 0;
+  int currentstepforDay = 0;
 
   DateTime get focusedDay => _focusedDay;
   DateTime get currentDay => _currentDay;
@@ -27,6 +30,9 @@ class HabitUI extends ChangeNotifier{
   void user(AppUser login) {
     _user = login;
     db = Database(uid: login.uid);
+    steps = Pedometer(onStateChange: updateStepCounter);
+    steps!.realStepsCounter = currentstepforDay;
+    startStepCounterToday();
   }
 
   set focusedDay(DateTime day) {
@@ -84,11 +90,11 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addHabit(DateTime day, String title, {int? goalamount, double? goalduration}) {
+  void addHabit(DateTime day, String title, {int? goalamount, bool? stepcounter}) {
     if (habits[day] != null) {
-      habits[day]!.add(Habit(title, goalamount: goalamount));
+      habits[day]!.add(Habit(title, goalamount: goalamount, stephabit: stepcounter));
     } else {
-      habits[day] = [Habit(title, goalamount: goalamount)];
+      habits[day] = [Habit(title, goalamount: goalamount, stephabit: stepcounter)];
     }
     db!.updateHabits(this);
     notifyListeners();
@@ -106,7 +112,12 @@ class HabitUI extends ChangeNotifier{
           habitList.map((habit) => habit.toMap()).toList();
       toBeStored[day.toIso8601String()] = convertedHabits;
     });
-    return {'habitlist': toBeStored, 'currentday': _currentDay.toIso8601String(), 'topstreak':streak, 'currentstreak':currentstreak};
+    return {
+        'habitlist': toBeStored,
+        'currentday': _currentDay.toIso8601String(),
+        'topstreak':streak,
+        'currentstreak':currentstreak,
+        'currentsteps': currentstepforDay};
   }
 
   static HabitUI fromMap(Map<String, dynamic> map) {
@@ -114,6 +125,7 @@ class HabitUI extends ChangeNotifier{
   habitUI.currentDay = DateTime.parse(map['currentday']);
   habitUI.streak = map['topstreak'];
   habitUI.currentstreak = map['currentstreak'];
+  habitUI.currentstepforDay = map['currentsteps'];
   if (map['habitlist'] != null) {
     Map<String, dynamic> habitsMap = map['habitlist'];
     habitsMap.forEach((dayString, habitList) {
@@ -145,6 +157,8 @@ class HabitUI extends ChangeNotifier{
         currentstreak = 0;
       }
     }
+    currentstepforDay = 0;
+    steps!.realStepsCounter = 0;
     _currentDay = DateTime.now();
     db!.updateHabits(this);
     notifyListeners();
@@ -164,11 +178,37 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void habitRep(int totalReps, int day, String title, {int? goalamount, double? goalduration}) {
+  void habitRep(int totalReps, int day, String title, {int? goalamount}) {
     DateTime now = DateTime.now();
     for(var i = 1; i <= totalReps; i++) {
-      addHabit(now, title);
+      addHabit(now, title, goalamount: goalamount);
       now = now.add(Duration(days: day));
     }
+  }
+
+  void stepcounter(int totalReps, int day, String title, {int? goalamount}) {
+    DateTime now = DateTime.now();
+    for(var i = 1; i <= totalReps; i++) {
+      addHabit(now, title, goalamount: goalamount, stepcounter: true);
+      now = now.add(Duration(days: day));
+    }
+    db!.updateHabits(this);
+    notifyListeners();
+  }
+
+  void startStepCounterToday() {
+    steps!.start();
+  }
+
+  void updateStepCounter() {
+    currentstepforDay = steps!.realStepsCounter;
+    db!.updateHabits(this);
+    notifyListeners();
+  }
+
+  void updateStepCounterHabit(Habit habit) {
+    habit.steps(currentstepforDay);
+    db!.updateHabits(this);
+    notifyListeners();
   }
 }
