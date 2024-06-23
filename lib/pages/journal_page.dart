@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habitapp/util/audio.dart';
+import 'package:habitapp/util/habitinterface.dart';
+import 'package:provider/provider.dart';
 
 class JournalPage extends StatefulWidget {
   const JournalPage({super.key});
@@ -13,6 +16,7 @@ class _JournalPageState extends State <JournalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<HabitUI>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -25,42 +29,19 @@ class _JournalPageState extends State <JournalPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child: Column(
           children: [
-            ExpansionTile(
-              title: TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter title',
-                  border: InputBorder.none,
-                ),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
+            const Text(
+              'Journal for today',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold
               ),
-              children: [
-                TextField(
-                  controller: _journalController,
-                  maxLines: 10,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Your journal entry',
-                  ),
-                ),
-              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Add functionality to save or process the diary entry
-                print('Title: ${_titleController.text}');
-                print('Journal entry: ${_journalController.text}');
-              },
-              child: const Text('Save Entry'),
-            ),
+            const SizedBox(height: 150,),
+            Audio()
           ],
-        ),
+        )
       ),
     );
   }
