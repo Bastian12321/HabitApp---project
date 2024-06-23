@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
 
-void showRunHabitDialog(BuildContext context, HabitUI data, ValueNotifier<List<Habit>> selectedHabits, TextEditingController habitNameController, TextEditingController integerController, List<String> frequencyOptions, int Function(String) frequencyToInt) {
+void showRunHabitDialog(BuildContext context, HabitUI data, TextEditingController habitNameController, TextEditingController integerController, List<String> frequencyOptions, int Function(String) frequencyToInt) {
   String frequency = 'every day';
 
   showDialog(
@@ -57,7 +57,6 @@ void showRunHabitDialog(BuildContext context, HabitUI data, ValueNotifier<List<H
                 return;
               }
               data.habitRep(integerValue, day, habitName);
-              selectedHabits.value = data.getHabitsForDay(data.selectedDay!);
 
               habitNameController.clear();
               integerController.clear();

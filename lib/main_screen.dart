@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:habitapp/pages/base_scaffold.dart';
 import 'package:habitapp/pages/journal_page.dart';
@@ -29,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     _pages = <Widget>[
       HomePage(),
       CalendarPage(),
-      HabitsPage(data: HabitUI(),),
+      HabitsPage(),
       const JournalPage(),
       const ProfilePage(),
     ];

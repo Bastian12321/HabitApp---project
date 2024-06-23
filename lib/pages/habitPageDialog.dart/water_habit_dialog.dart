@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:habitapp/util/habit.dart';
 
-void showDrinkWaterHabitDialog(BuildContext context, HabitUI data, ValueNotifier<List<Habit>> selectedHabits, TextEditingController habitNameController, TextEditingController integerController, TextEditingController goalAmountController, int water, List<int> waterOptions, List<String> frequencyOptions, int Function(String) frequencyToInt) {
+void showDrinkWaterHabitDialog(BuildContext context, HabitUI data, TextEditingController habitNameController, TextEditingController integerController, TextEditingController goalAmountController, int water, List<int> waterOptions, List<String> frequencyOptions, int Function(String) frequencyToInt) {
   String frequency = 'every day';
 
   showDialog(
@@ -68,7 +68,6 @@ void showDrinkWaterHabitDialog(BuildContext context, HabitUI data, ValueNotifier
 
               int totalWater = goalAmount * water;
               data.habitRep(integerValue, day, habitName, goalamount: goalAmount);
-              selectedHabits.value = data.getHabitsForDay(data.selectedDay!);
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Total water to drink per day: $totalWater ml')),

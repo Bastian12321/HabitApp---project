@@ -9,15 +9,13 @@ import 'package:habitapp/pages/habitPageDialog.dart/run_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/steps_habit_dialog.dart';
 import 'package:habitapp/pages/habitPageDialog.dart/water_habit_dialog.dart';
 class HabitsPage extends StatefulWidget {
-  HabitUI data;
-  HabitsPage({super.key, required this.data});
+  HabitsPage({super.key});
 
   @override
   State<HabitsPage> createState() => _HabitsPageState();
 }
 
 class _HabitsPageState extends State<HabitsPage> {
-    late final ValueNotifier<List<Habit>> _selectedHabits;
   TextEditingController _habitController = TextEditingController();
   TextEditingController _habitNameController = TextEditingController();
   TextEditingController _integerController = TextEditingController();
@@ -51,12 +49,6 @@ class _HabitsPageState extends State<HabitsPage> {
     500
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedHabits = ValueNotifier(widget.data.getHabitsForDay(widget.data.focusedDay));
-  }
-
   int frequencyToInt(String frequency) {
     switch (frequency) {
       case 'every day':
@@ -88,7 +80,7 @@ class _HabitsPageState extends State<HabitsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+ build(BuildContext context) {
     final data = Provider.of<HabitUI>(context);
     return Scaffold(
       appBar: AppBar(
@@ -110,34 +102,34 @@ class _HabitsPageState extends State<HabitsPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
-                  onPressed: () => showRunHabitDialog(context, widget.data, _selectedHabits, _habitNameController, _integerController, frequencyOptions, frequencyToInt),
+                  onPressed: () => showRunHabitDialog(context, data, _habitNameController, _integerController, frequencyOptions, frequencyToInt),
                   child: Text(predefinedHabits[0]),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
-                  onPressed: () => showStepsHabitDialog(context, widget.data, _selectedHabits, _habitNameController, _integerController, _goalAmountController, frequencyOptions, frequencyToInt),
+                  onPressed: () => showStepsHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, frequencyOptions, frequencyToInt),
                   child: Text(predefinedHabits[1]),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
-                  onPressed: () => showDrinkWaterHabitDialog(context, widget.data, _selectedHabits, _habitNameController, _integerController, _goalAmountController, water, waterOptions, frequencyOptions, frequencyToInt),
+                  onPressed: () => showDrinkWaterHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, water, waterOptions, frequencyOptions, frequencyToInt),
                   child: Text(predefinedHabits[2]),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
-                  onPressed: () => showJournalHabitDialog(context, widget.data, _selectedHabits, _habitNameController, _integerController, frequencyOptions, frequencyToInt),
+                  onPressed: () => showJournalHabitDialog(context, data, _habitNameController, _integerController, frequencyOptions, frequencyToInt),
                   child: Text(predefinedHabits[3]),
                 ),
               ),
               SizedBox(height: 20), // Space between predefined and custom habit button
               ElevatedButton(
-                onPressed: () => showCustomHabitDialog(context, widget.data, _selectedHabits, _habitNameController, _integerController, _goalAmountController, _showGoalAmountField, frequencyOptions, frequencyToInt),
+                onPressed: () => showCustomHabitDialog(context, data, _habitNameController, _integerController, _goalAmountController, _showGoalAmountField, frequencyOptions, frequencyToInt),
                 child: Text("Custom Habit"),
               ),
             ],
