@@ -90,7 +90,7 @@ class HabitUI extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addHabit(DateTime day, String title, {int goalamount = 0, bool? stepcounter}) {
+  void addHabit(DateTime day, String title, {int goalamount = 0, bool stepcounter = false}) {
     if (habits[day] != null) {
       habits[day]!.add(Habit(title, goalamount: goalamount, stephabit: stepcounter));
     } else {
