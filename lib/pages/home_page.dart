@@ -3,6 +3,7 @@ import 'package:habitapp/services/auth.dart';
 import 'package:habitapp/util/habit.dart';
 import 'package:habitapp/util/habitinterface.dart';
 import 'package:provider/provider.dart';
+import 'package:habitapp/util/step_counter.dart';  // Import the step counter
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   _buildHabitSection("Not Completed Habits", habits.where((habit) => !habit.done).toList()),
                   _buildHabitSection("Completed Habits", habits.where((habit) => habit.done).toList()),
+                  StepCounter(),  // Include the StepCounter widget
                 ],
               ),
             ),
@@ -118,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 trailing: habit.goalamount != null && habit.goalamount! > 0
-                    ? isStepsHabit // Check if the habit is a steps habit
+                    ? isStepsHabit
                         ? Text(
                             '${habit.amount}/${habit.goalamount}',
                             style: TextStyle(color: textColor),

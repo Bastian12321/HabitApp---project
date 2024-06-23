@@ -18,7 +18,7 @@ class Habit {
 
   void increaseAmount() {
     _amount++;
-    if (_amount == goalamount) {
+    if (_amount == goalamount!) {
       complete();
     }
   }
@@ -34,12 +34,21 @@ class Habit {
 
   int get amount => _amount;
 
+  set amount(int value) {
+    _amount = value;
+    if (_amount >= goalamount!) {
+      complete();
+    } else {
+      incomplete();
+    }
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'title': title,
-      'goalamount' : goalamount,
-      'amount' : _amount,
-      'done' : _done,
+      'goalamount': goalamount,
+      'amount': _amount,
+      'done': _done,
     };
   }
 
@@ -48,17 +57,17 @@ class Habit {
       map['title'],
       goalamount: map['goalamount'],
     )
-    .._amount = map['amount'] ?? 0
-    .._done = map['done'] ?? false;
+      .._amount = map['amount'] ?? 0
+      .._done = map['done'] ?? false;
   }
-  
+
   Habit clone() {
     return Habit(
       title,
       goalamount: goalamount,
     )
-    .._amount = _amount
-    .._done = _done;
+      .._amount = _amount
+      .._done = _done;
   }
 
   @override
